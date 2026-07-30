@@ -2,7 +2,7 @@
 
 /**
  * Adapted from Shadcnspace hero-02.
- * Hero media: boss site video (public/video/CHN.mp4) with image poster fallback.
+ * Hero media: boss site video with light global veil + glass blur under copy.
  */
 import Link from "next/link";
 import { Gift, Network, Percent, Sparkles } from "lucide-react";
@@ -29,7 +29,6 @@ export function HomeHeroBlock() {
       className="relative flex min-h-[100svh] flex-col overflow-hidden md:min-h-[min(100svh,900px)]"
     >
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1814]">
-        {/* Poster image always under video for first paint / reduced data */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={site.assets.heroImage}
@@ -52,37 +51,52 @@ export function HomeHeroBlock() {
             <source src={videoSrc} type="video/mp4" />
           </video>
         ) : null}
-        {/* Light readability scrim so type stays legible over motion */}
+        {/* Minimal global veil — video stays natural; legibility comes from glass panel */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(100deg, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.22) 42%, rgba(8,8,7,0.05) 70%, rgba(8,8,7,0.2) 100%), linear-gradient(to top, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.0) 42%)",
+              "linear-gradient(to top, rgba(8,8,7,0.45) 0%, transparent 38%), linear-gradient(to bottom, rgba(8,8,7,0.25) 0%, transparent 18%)",
           }}
         />
       </div>
 
       <div className="container-site relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 sm:justify-center sm:pb-12 md:pt-32">
-        <div className="max-w-xl rounded-sm bg-ink/35 p-5 backdrop-blur-[2px] sm:max-w-2xl sm:bg-transparent sm:p-0 sm:backdrop-blur-0 lg:max-w-3xl">
-          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream">
-            {site.sloganAlt}
-          </p>
-          <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-sm sm:text-5xl md:text-6xl lg:text-[4.1rem]">
-            {site.tagline}
-          </h1>
-          <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 sm:text-base md:text-lg">
-            Our complimentary white-glove service unlocks additional value at no cost to
-            you, vetted partners coordinated from concept to completion. Clients also receive an
-            exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-            <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
-            <Link
-              href="/contact"
-              className="inline-flex h-11 items-center text-sm text-foreground underline-offset-4 hover:underline"
-            >
-              {site.ctaSecondary}
-            </Link>
+        {/* Frosted glass under copy only — text readable, rest of frame open */}
+        <div className="relative max-w-xl lg:max-w-2xl">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-x-4 -inset-y-5 rounded-sm sm:-inset-x-6 sm:-inset-y-6 md:-inset-x-8 md:-inset-y-7"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.32) 55%, rgba(8,8,7,0.18) 100%)",
+              backdropFilter: "blur(18px) saturate(1.1)",
+              WebkitBackdropFilter: "blur(18px) saturate(1.1)",
+              boxShadow:
+                "inset 0 1px 0 rgba(244,241,234,0.08), 0 24px 48px -28px rgba(0,0,0,0.55)",
+            }}
+          />
+          <div className="relative px-1 py-1 sm:px-2">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream">
+              {site.sloganAlt}
+            </p>
+            <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-sm sm:text-5xl md:text-6xl lg:text-[4.1rem]">
+              {site.tagline}
+            </h1>
+            <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 sm:text-base md:text-lg">
+              Our complimentary white-glove service unlocks additional value at no cost to
+              you, vetted partners coordinated from concept to completion. Clients also receive an
+              exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+              <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
+              <Link
+                href="/contact"
+                className="inline-flex h-11 items-center text-sm text-foreground underline-offset-4 hover:underline"
+              >
+                {site.ctaSecondary}
+              </Link>
+            </div>
           </div>
         </div>
       </div>
