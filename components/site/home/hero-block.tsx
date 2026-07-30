@@ -2,7 +2,7 @@
 
 /**
  * Adapted from Shadcnspace hero-02.
- * Video-forward hero: soft fade under type only (no heavy frosted card).
+ * Video-forward hero: seamless soft vignette under type (no hard cutoffs).
  */
 import Link from "next/link";
 import { Gift, Network, Percent, Sparkles } from "lucide-react";
@@ -51,54 +51,43 @@ export function HomeHeroBlock() {
             <source src={videoSrc} type="video/mp4" />
           </video>
         ) : null}
-        {/* Very light global wash — video stays primary */}
+        {/* Full-bleed soft washes — no rectangular panel */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              "linear-gradient(to top, rgba(8,8,7,0.5) 0%, transparent 32%), linear-gradient(to bottom, rgba(8,8,7,0.2) 0%, transparent 16%)",
+            background: [
+              /* left/copy zone: gradual horizontal fade into clear video */
+              "linear-gradient(90deg, rgba(8,8,7,0.58) 0%, rgba(8,8,7,0.38) 28%, rgba(8,8,7,0.14) 52%, transparent 72%)",
+              /* bottom for trust strip transition */
+              "linear-gradient(to top, rgba(8,8,7,0.55) 0%, transparent 36%)",
+              /* light top for nav */
+              "linear-gradient(to bottom, rgba(8,8,7,0.28) 0%, transparent 22%)",
+            ].join(", "),
           }}
         />
       </div>
 
       <div className="container-site relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 sm:justify-center sm:pb-12 md:pt-32">
         <div className="relative max-w-xl lg:max-w-2xl">
-          {/* Soft edge-faded scrim + light blur — no hard card edges */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-x-6 -inset-y-4 sm:-inset-x-10 sm:-inset-y-6 md:-inset-x-12 md:-inset-y-8"
-            style={{
-              background:
-                "radial-gradient(ellipse 85% 80% at 30% 45%, rgba(8,8,7,0.42) 0%, rgba(8,8,7,0.18) 55%, transparent 78%)",
-              backdropFilter: "blur(6px)",
-              WebkitBackdropFilter: "blur(6px)",
-              maskImage:
-                "radial-gradient(ellipse 90% 85% at 35% 45%, black 20%, transparent 72%)",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 90% 85% at 35% 45%, black 20%, transparent 72%)",
-            }}
-          />
-          <div className="relative">
-            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
-              {site.sloganAlt}
-            </p>
-            <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
-              {site.tagline}
-            </h1>
-            <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] sm:text-base md:text-lg">
-              Our complimentary white-glove service unlocks additional value at no cost to
-              you, vetted partners coordinated from concept to completion. Clients also receive an
-              exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
-              <Link
-                href="/contact"
-                className="inline-flex h-11 items-center text-sm text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] underline-offset-4 hover:underline"
-              >
-                {site.ctaSecondary}
-              </Link>
-            </div>
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)]">
+            {site.sloganAlt}
+          </p>
+          <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
+            {site.tagline}
+          </h1>
+          <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)] sm:text-base md:text-lg">
+            Our complimentary white-glove service unlocks additional value at no cost to
+            you, vetted partners coordinated from concept to completion. Clients also receive an
+            exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
+            <Link
+              href="/contact"
+              className="inline-flex h-11 items-center text-sm text-foreground drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] underline-offset-4 hover:underline"
+            >
+              {site.ctaSecondary}
+            </Link>
           </div>
         </div>
       </div>
