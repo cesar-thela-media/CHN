@@ -43,8 +43,8 @@ export const site = {
   assets: {
     logoWhite: "/images/logo-white.png",
     heroImage: "/images/pinnaclebuilding.jpeg",
-    /** Optional hero video; empty = image hero with video-ready markup */
-    heroVideo: "" as string,
+    /** Sourced from live site: customhomenetwork.com/video/CHN.mp4 */
+    heroVideo: "/video/CHN.mp4",
     ogImage: "/images/pinnaclebuilding.jpeg",
   },
 };
