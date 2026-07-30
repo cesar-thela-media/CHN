@@ -1,0 +1,244 @@
+/**
+ * Brand facts for Custom Home Network.
+ * Values mirror live customhomenetwork.com schema where published.
+ * Phone / street / region remain unset until counsel provides them.
+ * UI hides empty fields instead of showing placeholders.
+ */
+export const site = {
+  name: "Custom Home Network",
+  shortName: "CHN",
+  tagline: "Your Custom Home Journey Starts Here",
+  sloganAlt: "Experience the Pinnacle of Custom Home Building",
+  ctaPrimary: "Begin Your Journey",
+  ctaSecondary: "Get in Touch",
+  description:
+    "Luxury custom home builder providing complimentary white-glove service from concept to completion: land, design, construction, finance, interiors, and project management at no cost to you.",
+  url: "https://customhomenetwork.com",
+  email: "info@customhomenetwork.com",
+  /** Empty until provided; do not invent */
+  phone: "" as string,
+  phoneDisplay: "" as string,
+  hours: "Monday to Friday, 9:00 AM to 5:00 PM",
+  foundingYear: 2024,
+  address: {
+    street: "" as string,
+    locality: "" as string,
+    region: "" as string,
+    postalCode: "" as string,
+    country: "US",
+  },
+  /** Audience, not a fixed metro until areaServed is set */
+  serviceArea:
+    "Serving local homeowners and families relocating from out of state",
+  serviceAreaShort: "Local & relocating clients nationwide*",
+  builderBonus: "0.5%",
+  priceRange: "$$$",
+  social: {
+    twitter: "" as string,
+    facebook: "" as string,
+    instagram: "" as string,
+    linkedin: "" as string,
+    x: "" as string,
+  },
+  assets: {
+    logoWhite: "/images/logo-white.png",
+    heroImage: "/images/pinnaclebuilding.jpeg",
+    /** Optional hero video; empty = image hero with video-ready markup */
+    heroVideo: "" as string,
+    ogImage: "/images/pinnaclebuilding.jpeg",
+  },
+};
+
+export function hasPhone(): boolean {
+  const phone = site.phone.trim();
+  return phone.length > 0 && !phone.includes("XXX");
+}
+
+export function hasAddress(): boolean {
+  const street = site.address.street.trim();
+  return street.length > 0 && street !== "TBD";
+}
+
+export function hasSocial(): boolean {
+  return Boolean(
+    site.social.facebook ||
+      site.social.instagram ||
+      site.social.linkedin ||
+      site.social.x ||
+      site.social.twitter,
+  );
+}
+
+export type Service = {
+  slug: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  icon: string;
+  image: string;
+  problem: string;
+  whatWeDo: string;
+  whoInNetwork: string;
+  outcomes: string[];
+};
+
+/** Single source for homepage, /services, and /services/[slug]. */
+export const services: Service[] = [
+  {
+    slug: "land-acquisition",
+    title: "Land Acquisition & Evaluation",
+    shortTitle: "Land Acquisition",
+    description:
+      "Expert land acquisition to find the right site for your custom home, with thorough evaluation and due diligence.",
+    icon: "MapPin",
+    image: "/images/land-hills.jpg",
+    problem:
+      "The wrong lot is expensive forever: easements, utilities, views, and resale value hide in fine print that most buyers never fully translate.",
+    whatWeDo:
+      "We connect you with land specialists who evaluate sites with a builder's and architect's eye: access, soils, setbacks, view corridors, and long-term livability, before you commit capital.",
+    whoInNetwork:
+      "Land brokers, local Realtors with custom-build experience, civil partners for early feasibility, and title resources for clean diligence.",
+    outcomes: [
+      "Clear go / no-go criteria before you fall in love with a parcel",
+      "Diligence that includes buildability, not only comps",
+      "Alignment with design intent from day one",
+    ],
+  },
+  {
+    slug: "architectural-design",
+    title: "Architectural Design & Planning",
+    shortTitle: "Architectural Design",
+    description:
+      "Collaborative design with visionary architects: innovative, personal plans that respect how you live.",
+    icon: "PenTool",
+    image: "/images/custombuilding.jpg",
+    problem:
+      "Beautiful drawings that ignore how you live, or how a builder will price them, create friction later: change orders, value-engineering, and regret.",
+    whatWeDo:
+      "We introduce architects who listen first, then design for light, privacy, circulation, and the quiet details that make a house feel inevitable. Plans stay coordinated with budget and constructability.",
+    whoInNetwork:
+      "Residential architects, planning consultants, and design partners experienced in custom and high-end residential work.",
+    outcomes: [
+      "Design rooted in how you actually live",
+      "Early dialogue between design and build",
+      "A clear narrative you can hold through construction",
+    ],
+  },
+  {
+    slug: "custom-building",
+    title: "Custom Home Building",
+    shortTitle: "Custom Building",
+    description:
+      "Premium construction with vetted builders known for exceptional craftsmanship and attention to detail.",
+    icon: "Home",
+    image: "/images/custombuilding.jpg",
+    problem:
+      "Not every custom builder is set up for true custom: communication, schedule honesty, and craftsmanship standards vary wildly.",
+    whatWeDo:
+      "We introduce builders vetted for process discipline and finish quality. You stay in control of selection; we keep context and expectations aligned so the build feels calm, not combative.",
+    whoInNetwork:
+      "Custom residential builders, superintendents, and specialty trade partners known for craft over volume.",
+    outcomes: [
+      "Builders matched to scope and ambition",
+      "Clearer sequencing and fewer surprise gaps",
+      "Exclusive 0.5% builder bonus pre-negotiated for network clients",
+    ],
+  },
+  {
+    slug: "finance-title",
+    title: "Finance & Title Services",
+    shortTitle: "Finance & Title",
+    description:
+      "Specialized finance and title partners to navigate the complexities of custom home funding and closing.",
+    icon: "Landmark",
+    image: "/images/unlockvalue.jpg",
+    problem:
+      "Construction loans, draws, title exceptions, and timing can derail even strong design if capital and closing paths stay opaque.",
+    whatWeDo:
+      "We bring finance and title partners who explain options plainly, align draws with the build plan, and protect clarity when timelines get tight.",
+    whoInNetwork:
+      "Residential lenders familiar with custom construction, mortgage advisors, and title professionals.",
+    outcomes: [
+      "Capital paths matched to project type",
+      "Title diligence that supports clean closings",
+      "Fewer last-minute financial surprises",
+    ],
+  },
+  {
+    slug: "interior-design",
+    title: "Interior Design & Finishing Touches",
+    shortTitle: "Interior Design",
+    description:
+      "Bespoke interiors that epitomize luxury and comfort: premium finishing touches for a home you actually live in.",
+    icon: "Sofa",
+    image: "/images/luxurypool.jpg",
+    problem:
+      "Interiors bolted on late become catalogs of compromises, or budgets that explode because finishes never met architecture halfway.",
+    whatWeDo:
+      "We introduce interior designers who work with the architectural language early: materials, millwork, lighting, and the tactile details that make rooms feel personal and durable.",
+    whoInNetwork:
+      "Interior designers, finish specialists, and lighting / millwork collaborators aligned to custom residential standards.",
+    outcomes: [
+      "Interiors integrated with architecture",
+      "Finish decisions sequenced with construction",
+      "Rooms that feel lived-in, not staged",
+    ],
+  },
+  {
+    slug: "project-management",
+    title: "Personalized Project Management",
+    shortTitle: "Project Management",
+    description:
+      "Dedicated oversight from concept to completion, so you are never left managing six firms alone.",
+    icon: "ClipboardCheck",
+    image: "/images/unlockvalue.jpg",
+    problem:
+      "When no one owns the whole story, owners become project managers, chasing answers across firms that don't share context.",
+    whatWeDo:
+      "Our complimentary white-glove service coordinates introductions and sequencing across your journey: a single through-line of context from concept to completion.",
+    whoInNetwork:
+      "Our network leads plus every specialist on your path, kept aligned through shared context and clear next steps.",
+    outcomes: [
+      "One coherent journey instead of six parallel ones",
+      "Proactive communication, not reactive fire drills",
+      "At no cost to you: partner-funded white-glove guidance",
+    ],
+  },
+];
+
+export function getServiceBySlug(slug: string): Service | undefined {
+  return services.find((s) => s.slug === slug);
+}
+
+export function getAllServiceSlugs(): string[] {
+  return services.map((s) => s.slug);
+}
+
+export const processSteps = [
+  {
+    step: "01",
+    title: "Discovery",
+    description:
+      "We listen first (vision, lifestyle, timeline), then assemble the right partners for your path.",
+  },
+  {
+    step: "02",
+    title: "Land & Design",
+    description:
+      "Secure the site. Shape the plan. Architecture that belongs to how you actually live.",
+  },
+  {
+    step: "03",
+    title: "Build & Finish",
+    description:
+      "Craftsmanship under coordinated oversight: structure, systems, and the quiet finishing moves.",
+  },
+  {
+    step: "04",
+    title: "Move In",
+    description:
+      "Walk rooms that feel inevitable. A journey as considered as the home itself.",
+  },
+] as const;
+
+export { insights, getInsightBySlug, getAllInsightSlugs } from "@/lib/insights";

@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "components/shadcn-space/blocks/about-us-12",
+    "components/shadcn-space/blocks/cta-01",
+    "components/shadcn-space/blocks/cta-08",
+    "components/shadcn-space/blocks/feature-01",
+    "components/shadcn-space/blocks/feature-13",
+    "components/shadcn-space/blocks/footer-01",
+    "components/shadcn-space/blocks/footer-02",
+    "components/shadcn-space/blocks/gallery-03",
+    "components/shadcn-space/blocks/hero-01",
+    "components/shadcn-space/blocks/hero-02",
+    "components/shadcn-space/blocks/navbar-08",
+    "components/shadcn-space/blocks/team-05",
+    "components/shadcn-space/blocks/testimonial-08",
+    "components/shadcn-space/blocks/blog-09",
+    "components/shadcn-space/blocks/contact-01"
+  ]
+}

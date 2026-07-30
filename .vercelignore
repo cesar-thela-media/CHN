@@ -1,0 +1,10 @@
+# Keep deploy payload lean (Vercel still runs install + build from package.json)
+Dockerfile
+railway.toml
+server.js
+screenshots
+artifacts
+docs
+BASELINE.md
+*.md
+!README.md
