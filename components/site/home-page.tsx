@@ -2,6 +2,7 @@
 
 /**
  * Flagship homepage, Shadcnspace blocks adapted for CHN.
+ * Copy: high-end, visual-first, minimal.
  */
 import AboutUs from "@/components/shadcn-space/blocks/about-us-03/about-us";
 import Services from "@/components/shadcn-space/blocks/services-02/services";
@@ -15,17 +16,24 @@ import Link from "next/link";
 import { services, site } from "@/lib/site";
 
 const trustData = [
-  { count: "$0", title: "Cost to you for our white-glove service" },
-  {
-    count: site.builderBonus,
-    title: "Builder bonus pre-negotiated exclusively for our clients",
-  },
-  { count: "6", title: "Disciplines in one coordinated network" },
+  { count: "$0", title: "To you for white-glove" },
+  { count: site.builderBonus, title: "Builder bonus for clients" },
+  { count: "6", title: "Disciplines, one network" },
 ];
+
+/** One short line per service on the homepage pin. */
+const serviceLines: Record<string, string> = {
+  "land-acquisition": "The right site, evaluated with a builder's eye.",
+  "architectural-design": "Plans shaped around how you actually live.",
+  "custom-building": "Vetted craft. Clear process. Calm builds.",
+  "finance-title": "Capital and closing, made plain.",
+  "interior-design": "Finishes that belong to the architecture.",
+  "project-management": "One through-line from concept to keys.",
+};
 
 const servicesData = services.map((s) => ({
   heading: s.title,
-  descp: s.description,
+  descp: serviceLines[s.slug] ?? s.description,
   image: s.image,
   href: `/services/${s.slug}`,
 }));
@@ -39,7 +47,7 @@ export function HomePage() {
         aboutusData={trustData}
         eyebrow="Unlocking additional value"
         headline="At no cost to you."
-        blurb="When you use our white-glove service, we work for you at no cost. Network partners cover our expenses, so you get the ultimate home-building experience with no financial commitment, plus a 0.5% builder bonus exclusively for our clients."
+        blurb="Partner-funded white-glove, plus a 0.5% builder bonus, with nothing owed to us."
         imageSrc="/images/value-keys.jpg"
       />
 
@@ -49,7 +57,7 @@ export function HomePage() {
         data={servicesData}
         eyebrow="Services"
         title="One network. Every critical discipline."
-        description="A seamless experience tailored to you, from land through finishing touches."
+        description="Land to finish, coordinated."
         ctaLabel="View all services"
         ctaHref="/services"
       />
@@ -65,18 +73,17 @@ export function HomePage() {
             data-fade
             className="display-lg mt-4 max-w-2xl text-3xl text-foreground md:text-5xl"
           >
-            Whether you are a local resident or relocating from another state.
+            Local or relocating.
           </h2>
           <p data-fade className="body-lg mt-5 max-w-xl">
-            We are your trusted partner in crafting a home that reflects your individuality,
-            with complimentary white-glove service from concept to completion.
+            Complimentary white-glove from first conversation to keys.
           </p>
           <Link
             data-fade
             href="/buyers"
             className="mt-8 inline-flex text-sm text-foreground underline underline-offset-4"
           >
-            Learn about the buyer journey
+            Buyer journey
           </Link>
         </div>
       </FadeIn>

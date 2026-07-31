@@ -9,9 +9,9 @@ export const site = {
   sloganAlt: "Experience the Pinnacle of Custom Home Building",
   ctaPrimary: "Begin Your Journey",
   ctaSecondary: "Get in Touch",
-  /** Short hero subhead (live-site tone, tightened for scan) */
+  /** Short hero subhead for luxury scan */
   heroSubhead:
-    "Complimentary white-glove service and a vetted network, seamless from concept to completion.",
+    "Complimentary white-glove. A vetted network. Seamless from concept to completion.",
   description:
     "Luxury custom home builder providing complimentary white-glove service from concept to completion: land, design, construction, finance, interiors, and project management at no cost to you.",
   url: "https://customhomenetwork.com",
@@ -42,7 +42,6 @@ export const site = {
   assets: {
     logoWhite: "/images/logo-white.png",
     heroImage: "/images/pinnaclebuilding.jpeg",
-    /** Live site: /video/CHN.mp4 (1280x720), cover-fills hero viewport */
     heroVideo: "/video/CHN.mp4",
     ogImage: "/images/pinnaclebuilding.jpeg",
   },

@@ -2,6 +2,7 @@
 
 /**
  * Adapted from Shadcnspace about-us-12 (image + story + stats).
+ * Minimal premium copy.
  */
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -104,10 +105,8 @@ export function AboutStoryBlock() {
               variants={fadeUp}
               className="max-w-md text-base leading-relaxed text-muted-foreground"
             >
-              Custom Home Network was founded so building your dream home feels smooth and
-              rewarding. We transform vision into reality with access to top-tier Realtors,
-              architects, builders, and financial experts, plus partner-funded white-glove
-              service and a pre-negotiated 0.5% builder bonus for our clients.
+              Access to top-tier Realtors, architects, builders, and finance partners.
+              Partner-funded white-glove, and a 0.5% builder bonus for our clients.
             </motion.p>
           </motion.div>
         </div>

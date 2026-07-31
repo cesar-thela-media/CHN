@@ -2,6 +2,7 @@
 
 /**
  * Adapted from Shadcnspace cta-08, conversion band → /contact.
+ * Minimal premium copy.
  */
 import Link from "next/link";
 import Image from "next/image";
@@ -11,9 +12,9 @@ import { Button } from "@/components/ui/button";
 import { site } from "@/lib/site";
 
 const perks = [
-  "Complimentary white-glove service",
-  "Vetted professional network",
-  `${site.builderBonus} builder bonus for clients`,
+  "Complimentary white-glove",
+  "Vetted network",
+  `${site.builderBonus} builder bonus`,
 ];
 
 const fadeUp = {
@@ -52,7 +53,7 @@ export function CtaBlock() {
                 variants={fadeUp}
                 className="text-xs font-medium uppercase tracking-[0.28em] text-cream/80"
               >
-                Ready to begin?
+                Ready?
               </motion.p>
               <motion.h2
                 variants={fadeUp}
@@ -62,10 +63,9 @@ export function CtaBlock() {
               </motion.h2>
               <motion.p
                 variants={fadeUp}
-                className="max-w-lg text-sm leading-relaxed text-white/80 sm:text-base"
+                className="max-w-md text-sm leading-relaxed text-white/80 sm:text-base"
               >
-                Schedule a personalized consultation and take the first step with Custom Home
-                Network.
+                One conversation. A clear path forward.
               </motion.p>
               <motion.ul
                 variants={fadeUp}
@@ -78,7 +78,10 @@ export function CtaBlock() {
                   </li>
                 ))}
               </motion.ul>
-              <motion.div variants={fadeUp} className="mt-2 flex flex-wrap items-center justify-center gap-4">
+              <motion.div
+                variants={fadeUp}
+                className="mt-2 flex flex-wrap items-center justify-center gap-4"
+              >
                 <Button
                   asChild
                   className="h-11 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90"

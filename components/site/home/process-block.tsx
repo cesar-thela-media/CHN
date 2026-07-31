@@ -2,7 +2,7 @@
 
 /**
  * Adapted from Shadcnspace timeline-01, process journey for CHN.
- * Unique image per chapter (no homepage reuse).
+ * Minimal intro copy; unique image per chapter.
  */
 import Timeline from "@/components/shadcn-space/blocks/timeline-01/timeline";
 import { Badge } from "@/components/ui/badge";
@@ -15,9 +15,17 @@ const processImages = [
   "/images/process-movein.jpg",
 ];
 
+/** Short step lines for luxury scan (homepage only). */
+const shortSteps: Record<string, string> = {
+  Discovery: "Vision, lifestyle, and the right partners.",
+  "Land & Design": "The site and the plan, in lockstep.",
+  "Build & Finish": "Craft under coordinated oversight.",
+  "Move In": "Keys. Calm. Home.",
+};
+
 const items = processSteps.map((s, i) => ({
   title: s.title,
-  description: s.description,
+  description: shortSteps[s.title] ?? s.description,
   date: s.step,
   image: processImages[i] ?? processImages[0],
 }));
@@ -39,10 +47,10 @@ export function ProcessBlock() {
               The journey
             </Badge>
             <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
-              Four deliberate chapters, from first call to keys.
+              Four chapters. First call to keys.
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-              A calm through-line so building feels considered, not chaotic.
+              Considered, not chaotic.
             </p>
           </div>
         </div>
