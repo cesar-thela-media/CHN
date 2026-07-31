@@ -2,178 +2,186 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Faq from "@/components/shadcn-space/blocks/faq-01/faq";
-import AboutUs from "@/components/shadcn-space/blocks/about-us-03/about-us";
-import { PageHero } from "@/components/site/page-hero";
-import { ProcessBlock } from "@/components/site/home/process-block";
-import { CtaBlock } from "@/components/site/home/cta-block";
+import { ArrowButton } from "@/components/site/arrow-button";
 import { ContactForm } from "@/components/site/contact-form";
-import { FadeIn } from "@/components/site/fade-in";
-import { processSteps } from "@/lib/site";
 
 export const metadata: Metadata = {
- title: "For Buyers",
- description:
- "Complimentary white-glove guidance for homeowners building a custom home, from land to keys. Partner-funded service and a 0.5% builder bonus.",
+  title: "For Buyers",
+  description:
+    "Complimentary white-glove guidance for homeowners. Partner-funded service and a 0.5% builder bonus.",
 };
 
 const buyerFaqs = [
- {
- question: "Is Custom Home Network really free for homeowners?",
- answer:
- "Yes. Our white-glove guidance is complimentary. Network partners fund our role so you receive dedicated oversight without an invoice from us.",
- },
- {
- question: "What is the 0.5% builder bonus?",
- answer:
- "We pre-negotiate an exclusive 0.5% builder bonus for clients in the network, additional value that typically isn’t available when you approach a builder alone.",
- },
- {
- question: "Who is this for?",
- answer:
- "Homeowners and relocators who want a custom home with calm coordination, land, architecture, build, finance, title, and interiors, without assembling every specialist themselves.",
- },
- {
- question: "Do I still choose my own architect or builder?",
- answer:
- "You stay in control. We introduce vetted partners aligned to your vision, budget, and timeline. You approve who you work with at every step.",
- },
- {
- question: "When should I start?",
- answer:
- "Ideally before land is under contract, but we also help mid-journey when a project needs better coordination. Start with a complimentary consultation.",
- },
+  {
+    question: "Is this free for homeowners?",
+    answer:
+      "Yes. White-glove guidance is complimentary. Network partners fund our role so you never receive an invoice from us.",
+  },
+  {
+    question: "What is the 0.5% builder bonus?",
+    answer:
+      "An exclusive builder bonus pre-negotiated for network clients, typically unavailable when you approach a builder alone.",
+  },
+  {
+    question: "Who is this for?",
+    answer:
+      "Homeowners and relocators who want a custom home with calm coordination across land, design, build, finance, and interiors.",
+  },
+  {
+    question: "Do I still choose my team?",
+    answer:
+      "Yes. We introduce vetted partners. You approve who you work with at every step.",
+  },
+  {
+    question: "When should I start?",
+    answer:
+      "Ideally before land is under contract. We also help mid-journey when a project needs better coordination.",
+  },
 ];
 
-const valueStats = [
- { count: "$0", title: "Fee for our white-glove service" },
- { count: "0.5%", title: "Builder bonus negotiated for you" },
- { count: "1", title: "Coordinated path, concept to keys" },
+const chapters = [
+  { n: "01", t: "Discover", d: "Vision, lifestyle, timeline." },
+  { n: "02", t: "Assemble", d: "The right partners, introduced with context." },
+  { n: "03", t: "Build", d: "Craft under one calm through-line." },
+  { n: "04", t: "Keys", d: "Move in. Live well." },
 ];
 
 export default function BuyersPage() {
- return (
- <>
- <PageHero
- blockId="hero-02"
- eyebrow="For buyers & relocators"
- title="Your home. Our network. No fee for the journey."
- description="Complimentary white-glove guidance through a vetted network, so building feels inspiring, not like another job you manage alone."
- image="/images/pinnaclebuilding.jpeg"
- primaryCta={{ href: "#schedule", label: "Schedule consultation" }}
- secondaryCta={{ href: "/services", label: "Explore services" }}
- />
+  return (
+    <>
+      {/* Split hero: text rail + tall image (not full-bleed page hero) */}
+      <section
+        data-shadcn-space="feature-13"
+        className="border-b border-border pt-28 md:pt-32"
+      >
+        <div className="container-site grid gap-10 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-0">
+          <div className="flex flex-col justify-center lg:col-span-5 lg:py-16">
+            <p className="eyebrow">For buyers</p>
+            <h1 className="display-lg mt-4 text-4xl text-foreground md:text-5xl lg:text-[3.25rem]">
+              Your home. Our network.
+            </h1>
+            <p className="mt-5 max-w-md text-base text-muted-foreground">
+              Complimentary white-glove. Concept to keys. Nothing owed to us.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <ArrowButton href="#schedule" size="sm">
+                Schedule consultation
+              </ArrowButton>
+              <Link
+                href="/services"
+                className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                Services
+              </Link>
+            </div>
+            <dl className="mt-12 grid grid-cols-3 gap-4 border-t border-border pt-8">
+              {[
+                { k: "$0", v: "Our fee" },
+                { k: "0.5%", v: "Builder bonus" },
+                { k: "6", v: "Disciplines" },
+              ].map((s) => (
+                <div key={s.v}>
+                  <dt className="font-display text-2xl text-foreground md:text-3xl">{s.k}</dt>
+                  <dd className="mt-1 text-[11px] uppercase tracking-[0.16em] text-stone">
+                    {s.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="relative min-h-[320px] overflow-hidden border border-border lg:col-span-7 lg:min-h-[560px]">
+            <Image
+              src="/images/page-buyers.jpg"
+              alt="Custom home interior light"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              priority
+            />
+          </div>
+        </div>
+      </section>
 
- <AboutUs
- aboutusData={valueStats}
- eyebrow="The value"
- headline="Partner-funded. Client-first."
- blurb="We orchestrate land, design, construction, and finance partners so nothing important falls between firms, while you keep the keys (and the 0.5% bonus)."
- imageSrc="/images/unlockvalue.jpg"
- />
+      {/* Horizontal chapters */}
+      <section className="border-b border-border bg-elevated/20 py-14 md:py-20">
+        <div className="container-site">
+          <p className="eyebrow">What to expect</p>
+          <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">
+            Four calm chapters.
+          </h2>
+          <div className="mt-10 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
+            {chapters.map((c) => (
+              <div key={c.n} className="bg-background p-6 md:p-8">
+                <p className="font-mono text-xs text-stone">{c.n}</p>
+                <h3 className="mt-3 font-display text-2xl text-foreground">{c.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
- <section data-shadcn-space="feature-01" className="border-b border-border py-16 md:py-24">
- <div className="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
- <FadeIn>
- <p data-fade className="eyebrow">
- How the network works
- </p>
- <h2 data-fade className="display-lg mt-4 text-3xl text-foreground md:text-5xl">
- One relationship. Every critical discipline.
- </h2>
- <p data-fade className="body-lg mt-5">
- Realtors, architects, builders, finance, title, and interiors, introduced when you need
- them, coordinated so you never rebuild the same conversation six times.
- </p>
- <ul data-fade className="mt-8 space-y-4 text-sm text-muted-foreground">
- {[
- "Dedicated oversight from first conversation through move-in",
- "Vetted specialists, craft and calm execution, not volume marketing",
- "Clear economics: our service is complimentary to you",
- ].map((line) => (
- <li key={line} className="flex gap-3 border-t border-border pt-4 first:border-0 first:pt-0">
- <span className="text-cream">, </span>
- {line}
- </li>
- ))}
- </ul>
- </FadeIn>
- <div className="img-frame relative aspect-[4/3] overflow-hidden">
- <Image
- src="/images/custombuilding.jpg"
- alt="Custom home under careful construction"
- fill
- className="object-cover"
- sizes="(max-width: 1024px) 100vw, 50vw"
- />
- </div>
- </div>
- </section>
+      {/* Value strip with unique image */}
+      <section className="border-b border-border py-16 md:py-24">
+        <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="img-frame relative aspect-[5/4] overflow-hidden">
+            <Image
+              src="/images/process-movein.jpg"
+              alt="Arrival at a custom home"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
+          <div>
+            <p className="eyebrow">The economics</p>
+            <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">
+              Partner-funded. Client-first.
+            </h2>
+            <p className="mt-4 max-w-md text-base text-muted-foreground">
+              Network partners cover our work. You keep the 0.5% builder bonus and a single calm path.
+            </p>
+            <ul className="mt-8 space-y-3 text-sm text-muted-foreground">
+              {[
+                "One relationship across six disciplines",
+                "Vetted specialists, not volume marketing",
+                "You approve every partner",
+              ].map((line) => (
+                <li key={line} className="border-t border-border pt-3 first:border-0 first:pt-0">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
- <section className="border-b border-border bg-elevated/20 py-16 md:py-20">
- <div className="container-site">
- <p className="eyebrow">What to expect</p>
- <h2 className="display-lg mt-4 max-w-2xl text-3xl text-foreground md:text-4xl">
- A calm sequence, not a scramble.
- </h2>
- <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
- {processSteps.map((step) => (
- <div
- key={step.step}
- className="border border-border bg-card/40 p-6"
- >
- <p className="font-mono text-xs text-stone">{step.step}</p>
- <h3 className="mt-3 font-display text-2xl text-foreground">{step.title}</h3>
- <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
- {step.description}
- </p>
- </div>
- ))}
- </div>
- <p className="mt-8 text-sm text-muted-foreground">
- Prefer the full narrative timeline?{" "}
- <Link href="/#process" className="text-foreground underline underline-offset-4">
- See the journey on the homepage
- </Link>
- .
- </p>
- </div>
- </section>
+      <Faq
+        items={buyerFaqs}
+        eyebrow="FAQs"
+        title="Clear answers."
+      />
 
- <ProcessBlock />
-
- <Faq
- items={buyerFaqs}
- eyebrow="Buyer FAQs"
- title="Clear answers before you commit a lot of energy."
- />
-
- <section
- id="schedule"
- data-shadcn-space="contact-01"
- className="border-t border-border bg-elevated/25 py-16 md:py-24"
- >
- <div className="container-site grid gap-12 lg:grid-cols-2 lg:gap-16">
- <div>
- <p className="eyebrow">Schedule</p>
- <h2 className="display-lg mt-4 text-3xl text-foreground md:text-4xl">
- Start with a complimentary consultation.
- </h2>
- <p className="body-lg mt-5">
- Share where you are in the journey, we’ll respond with a private conversation, not a
- sales script. Or{" "}
- <Link href="/contact" className="text-foreground underline underline-offset-4">
- open the full contact page
- </Link>
- .
- </p>
- </div>
- <div className="rounded-sm border border-border bg-card p-6 md:p-8">
- <ContactForm />
- </div>
- </div>
- </section>
-
- <CtaBlock />
- </>
- );
+      <section
+        id="schedule"
+        data-shadcn-space="contact-01"
+        className="border-t border-border bg-elevated/25 py-16 md:py-24"
+      >
+        <div className="container-site grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <p className="eyebrow">Schedule</p>
+            <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">
+              Start with a conversation.
+            </h2>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Private consultation. No sales script.
+            </p>
+          </div>
+          <div className="rounded-sm border border-border bg-card p-6 md:p-8 lg:col-span-7">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
