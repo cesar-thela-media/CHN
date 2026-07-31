@@ -19,7 +19,7 @@ const perks = [
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeOut" as const } },
 };
 
 const stagger = {

@@ -15,12 +15,16 @@ export function ensureGsap() {
   }
 }
 
-/** Fade + rise on enter; respects reduced motion. Never leaves opacity stuck at 0. */
+/** Premium ease curve used sitewide */
+export const CHN_EASE = "power3.out";
+export const CHN_EASE_SOFT = "power2.inOut";
+
+/** Fade + rise on enter; longer, softer for luxury feel. */
 export function useFadeIn<T extends HTMLElement>(
   options: { y?: number; duration?: number; stagger?: number; delay?: number } = {},
 ) {
   const ref = useRef<T | null>(null);
-  const { y = 20, duration = 0.75, stagger = 0.07, delay = 0 } = options;
+  const { y = 28, duration = 1.05, stagger = 0.1, delay = 0 } = options;
 
   useGSAP(
     () => {
@@ -37,7 +41,6 @@ export function useFadeIn<T extends HTMLElement>(
         return;
       }
 
-      // Ensure visible if ScrollTrigger never fires (short viewports / layout shifts)
       gsap.set(nodes, { opacity: 1, y: 0 });
 
       gsap.from(nodes, {
@@ -46,13 +49,12 @@ export function useFadeIn<T extends HTMLElement>(
         duration,
         delay,
         stagger,
-        ease: "power3.out",
+        ease: CHN_EASE,
         immediateRender: false,
         scrollTrigger: {
           trigger: el,
-          start: "top 90%",
+          start: "top 88%",
           once: true,
-          // If already past trigger on load, still animate once
           toggleActions: "play none none none",
         },
         onComplete: () => {

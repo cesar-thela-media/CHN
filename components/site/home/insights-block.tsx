@@ -44,7 +44,7 @@ export function InsightsBlock() {
  src={hero.image}
  alt={hero.title}
  fill
- className="object-cover transition-transform duration-500 group-hover:scale-105"
+ className="object-cover transition-transform duration-700 group-hover:scale-105"
  sizes="(max-width: 768px) 100vw, 58vw"
  />
  </Link>
@@ -105,7 +105,7 @@ export function InsightsBlock() {
  src={article.image}
  alt={article.title}
  fill
- className="object-cover transition-transform duration-500 group-hover:scale-105"
+ className="object-cover transition-transform duration-700 group-hover:scale-105"
  sizes="(max-width: 768px) 100vw, 25vw"
  />
  </Link>
