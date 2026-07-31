@@ -2,7 +2,7 @@
 
 /**
  * Services: CSS sticky pin + GSAP scrubbed crossfades.
- * Scroll freezes the panel; progress blends image/rows smoothly (not hard cuts).
+ * Vertical progress rail (visible) while section is pinned.
  */
 import { useRef } from "react";
 import Image from "next/image";
@@ -45,7 +45,7 @@ function Services({
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const progressFillRef = useRef<HTMLDivElement>(null);
   const stepLabelRef = useRef<HTMLParagraphElement>(null);
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const rowsRef = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -57,7 +57,7 @@ function Services({
     () => {
       const track = trackRef.current;
       const panel = panelRef.current;
-      const progressEl = progressRef.current;
+      const progressFill = progressFillRef.current;
       const stepLabel = stepLabelRef.current;
       if (!track || !panel || !data.length) return;
 
@@ -85,13 +85,16 @@ function Services({
           overflow: "hidden",
         });
       });
-      if (progressEl) {
-        gsap.set(progressEl, { scaleX: 1 / count, transformOrigin: "left center" });
+      // Vertical fill: scaleY from top
+      if (progressFill) {
+        gsap.set(progressFill, {
+          scaleY: 1 / count,
+          transformOrigin: "top center",
+        });
       }
 
       let lastIndex = -1;
 
-      /** Continuous image crossfade (scroll-linked, like a dissolve) */
       const applyBlend = (idx: number, blend: number, progress: number) => {
         const next = Math.min(count - 1, idx + 1);
         images.forEach((img, i) => {
@@ -109,14 +112,14 @@ function Services({
           }
           gsap.set(img, { opacity: op, scale: sc });
         });
-        if (progressEl) {
-          gsap.set(progressEl, {
-            scaleX: Math.min(1, Math.max(1 / count, progress)),
+        if (progressFill) {
+          // Full 0→1 height of the vertical rail
+          gsap.set(progressFill, {
+            scaleY: Math.min(1, Math.max(1 / count, progress || 0.02)),
           });
         }
       };
 
-      /** Soft row/title/description transition on step change */
       const setActiveRow = (idx: number) => {
         if (idx === lastIndex) return;
         lastIndex = idx;
@@ -206,7 +209,7 @@ function Services({
       });
 
       setActiveRow(0);
-      applyBlend(0, 0, 0);
+      applyBlend(0, 0, 0.02);
       ScrollTrigger.refresh();
     },
     { scope: rootRef, dependencies: [count, data] },
@@ -231,14 +234,24 @@ function Services({
           data-pinned="false"
           className="sticky top-0 flex h-[100svh] max-h-[100svh] w-full flex-col justify-center overflow-hidden bg-background"
         >
+          {/* Vertical progress rail — always visible while pinned */}
           <div
-            ref={progressRef}
-            className="pointer-events-none absolute left-0 top-0 z-30 h-[3px] w-full origin-left bg-cream will-change-transform"
-            style={{ transform: "scaleX(0.16)" }}
+            className="pointer-events-none absolute left-3 top-1/2 z-40 flex h-[min(52svh,420px)] w-1.5 -translate-y-1/2 flex-col sm:left-5 md:left-6 lg:left-8"
             aria-hidden
-          />
+            data-services-progress
+          >
+            {/* Track */}
+            <div className="relative h-full w-full overflow-hidden rounded-full bg-stone/35 ring-1 ring-cream/20">
+              {/* Fill grows top → bottom */}
+              <div
+                ref={progressFillRef}
+                className="absolute inset-x-0 top-0 h-full w-full origin-top rounded-full bg-cream shadow-[0_0_12px_rgba(245,240,230,0.45)] will-change-transform"
+                style={{ transform: "scaleY(0.16)" }}
+              />
+            </div>
+          </div>
 
-          <div className="container-site flex min-h-0 flex-1 flex-col justify-center py-10 md:py-12">
+          <div className="container-site flex min-h-0 flex-1 flex-col justify-center py-10 pe-4 ps-8 md:py-12 md:ps-12 lg:ps-14">
             <div className="flex min-h-0 flex-col gap-6 md:gap-8">
               <div className="flex shrink-0 flex-col items-start justify-between gap-4 md:flex-row md:items-end">
                 <div className="flex max-w-2xl flex-col gap-2">
