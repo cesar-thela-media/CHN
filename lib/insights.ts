@@ -20,7 +20,7 @@ export const insights: InsightArticle[] = [
     category: "Design",
     date: "2026-03-12",
     readMinutes: 6,
-    image: "/images/story-living.jpg",
+    image: "/images/unlockvalue.jpg",
     body: [
       "Most custom homes fail quietly, not in the renderings, but on a Tuesday evening when the kitchen island is wrong for how the household actually moves. The great rooms photograph beautifully. The mudroom is an afterthought. The light is dramatic at noon and harsh at dinner. Designing for how you live means treating lifestyle as primary data, not decoration layered on later.",
       "Start with sequences, not square footage. Where do bags land after school or travel? Where does coffee happen before anyone is ready for company? Which rooms need acoustic separation, and which should borrow light from each other? A floor plan that honors those answers will feel inevitable; one that ignores them will feel expensive and slightly wrong for years.",
@@ -37,7 +37,7 @@ export const insights: InsightArticle[] = [
     category: "Land",
     date: "2026-04-02",
     readMinutes: 7,
-    image: "/images/land-hills.jpg",
+    image: "/images/custombuilding.jpg",
     body: [
       "Land is the only decision you cannot fully redesign. Paint changes. Plans revise. A parcel's access, soils, setbacks, and easements do not. Buyers who fall in love with a view without translating buildability often discover the romance at the first civil review, or worse, after closing.",
       "Clarity begins with a simple question: can this site become the house you imagine, at a budget and timeline you can live with? That answer lives in utilities, topography, drainage, access roads, HOA or deed restrictions, and the unglamorous documents that govern what may actually be built. A stunning outlook with unworkable setbacks is not a bargain; it is a constraint with good lighting.",
@@ -54,7 +54,7 @@ export const insights: InsightArticle[] = [
     category: "Process",
     date: "2026-05-18",
     readMinutes: 5,
-    image: "/images/value-keys.jpg",
+    image: "/images/luxurypool.jpg",
     body: [
       "White-glove usually means a premium line item. Someone is paid to coordinate, anticipate, and protect your time, and that someone appears on your invoice. Custom Home Network is built differently: the concierge layer is complimentary to the client because the network's professional partners fund the model. You receive oversight without adding another fee to the project stack.",
       "That structure only works if incentives stay aligned. Partners join because the clients are serious, the handoffs are clean, and the standard of work is high. Clients stay because the journey feels calm and the economics are transparent, including an exclusive 0.5% builder bonus pre-negotiated for network clients. No one is inventing mystery markups in the dark.",

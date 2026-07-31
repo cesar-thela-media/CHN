@@ -2,7 +2,7 @@
 
 /**
  * Services-02 adapted for CHN: scroll-pinned highlight (not hover).
- * Pin section while scrolling through each discipline, then release.
+ * Pin while scrolling through each discipline, then release to next section.
  */
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -51,13 +51,26 @@ function Services({
     gsap.registerPlugin(ScrollTrigger);
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
     const pinEl = pinRef.current;
     const section = sectionRef.current;
     if (!pinEl || !section) return;
 
-    const scrollPer = Math.round(window.innerHeight * 0.55);
+    // Mobile / reduced motion: still advance active via scroll without long pin
+    if (reduce || window.innerWidth < 768) {
+      const triggers: ScrollTrigger[] = data.map((_, i) =>
+        ScrollTrigger.create({
+          trigger: section,
+          start: () => `top+=${i * 80} center`,
+          end: () => `top+=${(i + 1) * 80} center`,
+          onEnter: () => setActiveIndex(i),
+          onEnterBack: () => setActiveIndex(i),
+        }),
+      );
+      return () => triggers.forEach((t) => t.kill());
+    }
+
+    // Desktop: pin and scrub through all 6, then release
+    const scrollPer = Math.round(window.innerHeight * 0.72);
     const totalScroll = scrollPer * count;
 
     const st = ScrollTrigger.create({
@@ -66,10 +79,11 @@ function Services({
       end: () => `+=${totalScroll}`,
       pin: pinEl,
       pinSpacing: true,
-      scrub: 0.35,
+      scrub: 0.45,
       anticipatePin: 1,
       onUpdate: (self) => {
-        const idx = Math.min(count - 1, Math.floor(self.progress * count));
+        const raw = self.progress * count;
+        const idx = Math.min(count - 1, Math.floor(raw + 0.001));
         setActiveIndex((prev) => (prev === idx ? prev : idx));
       },
     });
@@ -86,8 +100,8 @@ function Services({
       id="services"
       className="bg-background"
     >
-      <div ref={pinRef} className="bg-background">
-        <div className="container-site py-14 sm:py-16 lg:py-20">
+      <div ref={pinRef} className="min-h-[100svh] bg-background">
+        <div className="container-site flex min-h-[100svh] flex-col justify-center py-14 sm:py-16 lg:py-20">
           <div className="flex flex-col gap-10 sm:gap-12">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="flex max-w-2xl flex-col gap-3">

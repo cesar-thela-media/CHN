@@ -2,7 +2,7 @@
 
 /**
  * Global header adapted from Shadcnspace `navbar-08`
- * (NavigationMenu + Sheet mobile drawer), restyled to CHN editorial tokens.
+ * Large cropped logo wordmark; all nav items real routes.
  */
 import Image from "next/image";
 import Link from "next/link";
@@ -87,67 +87,76 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-[5.25rem] items-center justify-between gap-4 transition-all duration-500 md:h-[5.75rem]",
-            scrolled && "h-[4.75rem] md:h-[5rem]",
+            "flex h-24 items-center justify-between gap-4 transition-all duration-500 md:h-[6.5rem]",
+            scrolled && "h-20 md:h-24",
           )}
           aria-label="Primary"
         >
-          <div className="flex min-w-0 items-center gap-5 lg:gap-8">
+          <div className="flex min-w-0 items-center gap-4 lg:gap-7">
             <Link
               href="/"
-              className="relative z-10 flex shrink-0 items-center py-1"
+              className="relative z-10 flex shrink-0 items-center"
               aria-label={`${site.name} home`}
             >
-              {/* Official logo asset is wide (1386x787). Height drives readable wordmark. */}
-              <Image
+              {/* Cropped official logo: tall enough that wordmark is clearly readable */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={site.assets.logoWhite}
                 alt={site.name}
-                width={320}
-                height={182}
-                sizes="(max-width: 768px) 160px, 240px"
-                className="h-[3.25rem] w-auto object-contain object-left sm:h-14 md:h-[3.75rem] lg:h-16"
-                priority
+                width={400}
+                height={87}
+                className="h-[52px] w-auto object-contain object-left sm:h-[60px] md:h-[72px] lg:h-[80px]"
+                fetchPriority="high"
               />
             </Link>
 
             <Separator
               orientation="vertical"
-              className="hidden h-7 data-[orientation=vertical]:h-7 lg:block"
+              className="hidden h-10 data-[orientation=vertical]:h-10 lg:block"
             />
 
             <ul className="hidden items-center gap-0.5 lg:flex">
               {primaryNav.map((item) => {
                 if (item.href === "/services") {
                   return (
-                    <li key={item.href} className="relative">
-                      <button
-                        type="button"
-                        className={cn(
-                          "inline-flex items-center gap-1 rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
-                          isActive("/services")
-                            ? "text-foreground"
-                            : "text-muted-foreground hover:text-foreground",
-                        )}
-                        aria-expanded={servicesOpen}
-                        onClick={() => setServicesOpen((v) => !v)}
-                        onBlur={() => {
-                          window.setTimeout(() => setServicesOpen(false), 150);
-                        }}
-                      >
-                        {item.label}
-                        <ChevronDown
+                    <li
+                      key={item.href}
+                      className="relative"
+                      onMouseEnter={() => setServicesOpen(true)}
+                      onMouseLeave={() => setServicesOpen(false)}
+                    >
+                      <div className="inline-flex items-center">
+                        <Link
+                          href="/services"
                           className={cn(
-                            "h-3.5 w-3.5 transition-transform",
-                            servicesOpen && "rotate-180",
+                            "inline-flex items-center rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
+                            isActive("/services")
+                              ? "text-foreground"
+                              : "text-muted-foreground hover:text-foreground",
                           )}
-                        />
-                      </button>
+                        >
+                          {item.label}
+                        </Link>
+                        <button
+                          type="button"
+                          className="rounded-sm p-1 text-muted-foreground hover:text-foreground"
+                          aria-label="Services menu"
+                          aria-expanded={servicesOpen}
+                          onClick={() => setServicesOpen((v) => !v)}
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "h-3.5 w-3.5 transition-transform",
+                              servicesOpen && "rotate-180",
+                            )}
+                          />
+                        </button>
+                      </div>
                       {servicesOpen && (
-                        <div className="absolute left-0 top-full z-50 mt-1 w-72 border border-border bg-card/98 p-2 shadow-soft backdrop-blur-xl">
+                        <div className="absolute left-0 top-full z-50 w-72 border border-border bg-card/98 p-2 shadow-soft backdrop-blur-xl">
                           <Link
                             href="/services"
                             className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-elevated"
-                            onClick={() => setServicesOpen(false)}
                           >
                             All services
                           </Link>
@@ -157,7 +166,6 @@ export function Header() {
                               key={s.href}
                               href={s.href}
                               className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-elevated hover:text-foreground"
-                              onClick={() => setServicesOpen(false)}
                             >
                               {s.label}
                             </Link>
@@ -211,12 +219,13 @@ export function Header() {
                 <SheetHeader>
                   <SheetTitle className="sr-only">Menu</SheetTitle>
                   <div className="flex justify-start">
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={site.assets.logoWhite}
                       alt={site.name}
-                      width={280}
-                      height={160}
-                      className="h-12 w-auto object-contain object-left"
+                      width={320}
+                      height={70}
+                      className="h-14 w-auto object-contain object-left"
                     />
                   </div>
                 </SheetHeader>
