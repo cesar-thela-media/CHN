@@ -2,7 +2,7 @@
 
 /**
  * Global header adapted from Shadcnspace `navbar-08`
- * Balanced logo (readable, not oversized) + real routes.
+ * Above-medium logo + compact primary CTA.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -86,33 +86,32 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-[4.25rem] items-center justify-between gap-6 transition-all duration-500 md:h-[4.75rem]",
-            scrolled && "h-16 md:h-[4.25rem]",
+            "flex h-[4.75rem] items-center justify-between gap-5 transition-all duration-500 md:h-[5.25rem]",
+            scrolled && "h-[4.25rem] md:h-[4.75rem]",
           )}
           aria-label="Primary"
         >
-          {/* Left: logo + desktop nav */}
-          <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
+          <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
             <Link
               href="/"
               className="relative z-10 flex shrink-0 items-center"
               aria-label={`${site.name} home`}
             >
-              {/* Balanced wordmark: readable, not larger than nav chrome */}
+              {/* Above-medium: ~48–52px desktop, ~40–44px mobile; max ~220–240px */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={site.assets.logoWhite}
                 alt={site.name}
-                width={200}
-                height={44}
-                className="h-9 w-auto max-w-[168px] object-contain object-left sm:h-10 sm:max-w-[190px] md:h-[42px] md:max-w-[200px]"
+                width={240}
+                height={52}
+                className="h-[42px] w-auto max-w-[200px] object-contain object-left sm:h-[46px] sm:max-w-[220px] md:h-[50px] md:max-w-[230px] lg:h-[52px] lg:max-w-[240px]"
                 fetchPriority="high"
               />
             </Link>
 
             <Separator
               orientation="vertical"
-              className="hidden h-5 data-[orientation=vertical]:h-5 lg:block"
+              className="hidden h-6 data-[orientation=vertical]:h-6 lg:block"
             />
 
             <ul className="hidden min-w-0 items-center gap-0.5 lg:flex">
@@ -194,13 +193,9 @@ export function Header() {
             </ul>
           </div>
 
-          {/* Right: primary CTA + mobile menu */}
           <div className="flex shrink-0 items-center gap-2">
             <div className="hidden sm:block">
-              <ArrowButton
-                href="/contact"
-                className="h-10 max-w-none whitespace-nowrap px-4 text-sm"
-              >
+              <ArrowButton href="/contact" size="sm">
                 Begin Your Journey
               </ArrowButton>
             </div>
@@ -227,9 +222,9 @@ export function Header() {
                     <img
                       src={site.assets.logoWhite}
                       alt={site.name}
-                      width={180}
-                      height={40}
-                      className="h-10 w-auto object-contain object-left"
+                      width={220}
+                      height={48}
+                      className="h-11 w-auto max-w-[200px] object-contain object-left"
                     />
                   </div>
                 </SheetHeader>
@@ -266,7 +261,8 @@ export function Header() {
                   <div className="mt-6 px-3">
                     <ArrowButton
                       href="/contact"
-                      className="w-full justify-center whitespace-nowrap"
+                      size="sm"
+                      className="w-full justify-center"
                       onClick={() => setOpen(false)}
                     >
                       Begin Your Journey
