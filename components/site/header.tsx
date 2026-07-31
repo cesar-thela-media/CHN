@@ -2,9 +2,8 @@
 
 /**
  * Global header adapted from Shadcnspace `navbar-08`
- * Large cropped logo wordmark; all nav items real routes.
+ * Balanced logo (readable, not oversized) + real routes.
  */
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -60,7 +59,7 @@ export function Header() {
           !scrolled && "bg-background/40",
         )}
       >
-        <div className="container-site flex h-9 items-center justify-between gap-4 text-[11px] tracking-wide text-muted-foreground">
+        <div className="container-site flex h-8 items-center justify-between gap-4 text-[11px] tracking-wide text-muted-foreground">
           <div className="flex min-w-0 items-center gap-4">
             <a
               href={`mailto:${site.email}`}
@@ -87,35 +86,36 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-24 items-center justify-between gap-4 transition-all duration-500 md:h-[6.5rem]",
-            scrolled && "h-20 md:h-24",
+            "flex h-[4.25rem] items-center justify-between gap-6 transition-all duration-500 md:h-[4.75rem]",
+            scrolled && "h-16 md:h-[4.25rem]",
           )}
           aria-label="Primary"
         >
-          <div className="flex min-w-0 items-center gap-4 lg:gap-7">
+          {/* Left: logo + desktop nav */}
+          <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
             <Link
               href="/"
               className="relative z-10 flex shrink-0 items-center"
               aria-label={`${site.name} home`}
             >
-              {/* Cropped official logo: tall enough that wordmark is clearly readable */}
+              {/* Balanced wordmark: readable, not larger than nav chrome */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={site.assets.logoWhite}
                 alt={site.name}
-                width={400}
-                height={87}
-                className="h-[52px] w-auto object-contain object-left sm:h-[60px] md:h-[72px] lg:h-[80px]"
+                width={200}
+                height={44}
+                className="h-9 w-auto max-w-[168px] object-contain object-left sm:h-10 sm:max-w-[190px] md:h-[42px] md:max-w-[200px]"
                 fetchPriority="high"
               />
             </Link>
 
             <Separator
               orientation="vertical"
-              className="hidden h-10 data-[orientation=vertical]:h-10 lg:block"
+              className="hidden h-5 data-[orientation=vertical]:h-5 lg:block"
             />
 
-            <ul className="hidden items-center gap-0.5 lg:flex">
+            <ul className="hidden min-w-0 items-center gap-0.5 lg:flex">
               {primaryNav.map((item) => {
                 if (item.href === "/services") {
                   return (
@@ -129,7 +129,7 @@ export function Header() {
                         <Link
                           href="/services"
                           className={cn(
-                            "inline-flex items-center rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
+                            "inline-flex items-center rounded-sm px-2.5 py-2 text-[13px] tracking-wide transition-colors",
                             isActive("/services")
                               ? "text-foreground"
                               : "text-muted-foreground hover:text-foreground",
@@ -180,7 +180,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
+                        "inline-flex whitespace-nowrap rounded-sm px-2.5 py-2 text-[13px] tracking-wide transition-colors",
                         isActive(item.href)
                           ? "text-foreground"
                           : "text-muted-foreground hover:text-foreground",
@@ -194,10 +194,14 @@ export function Header() {
             </ul>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Right: primary CTA + mobile menu */}
+          <div className="flex shrink-0 items-center gap-2">
             <div className="hidden sm:block">
-              <ArrowButton href="/contact" className="h-10 px-4 text-sm">
-                {site.ctaPrimary}
+              <ArrowButton
+                href="/contact"
+                className="h-10 max-w-none whitespace-nowrap px-4 text-sm"
+              >
+                Begin Your Journey
               </ArrowButton>
             </div>
 
@@ -223,9 +227,9 @@ export function Header() {
                     <img
                       src={site.assets.logoWhite}
                       alt={site.name}
-                      width={320}
-                      height={70}
-                      className="h-14 w-auto object-contain object-left"
+                      width={180}
+                      height={40}
+                      className="h-10 w-auto object-contain object-left"
                     />
                   </div>
                 </SheetHeader>
@@ -262,10 +266,10 @@ export function Header() {
                   <div className="mt-6 px-3">
                     <ArrowButton
                       href="/contact"
-                      className="w-full justify-center"
+                      className="w-full justify-center whitespace-nowrap"
                       onClick={() => setOpen(false)}
                     >
-                      {site.ctaPrimary}
+                      Begin Your Journey
                     </ArrowButton>
                   </div>
                 </div>

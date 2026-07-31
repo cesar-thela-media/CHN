@@ -31,17 +31,19 @@ export function ArrowButton({
       : "bg-primary text-primary-foreground";
 
   const classNames = cn(
-    "group relative inline-flex h-12 items-center overflow-hidden rounded-full p-1 ps-6 pe-14 text-sm font-medium transition-all duration-500 hover:ps-14 hover:pe-6",
+    "group relative inline-flex h-11 shrink-0 items-center overflow-hidden rounded-full p-1 ps-5 pe-12 text-sm font-medium whitespace-nowrap transition-all duration-500 hover:ps-12 hover:pe-5",
     styles,
     className,
   );
 
   const inner = (
     <>
-      <span className="relative z-10 transition-all duration-500">{children}</span>
+      <span className="relative z-10 whitespace-nowrap transition-all duration-500">
+        {children}
+      </span>
       <span
         className={cn(
-          "absolute right-1 flex h-10 w-10 items-center justify-center rounded-full transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45",
+          "absolute right-1 flex h-9 w-9 items-center justify-center rounded-full transition-all duration-500 group-hover:right-[calc(100%-40px)] group-hover:rotate-45",
           knob,
         )}
       >
