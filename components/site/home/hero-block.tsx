@@ -81,6 +81,7 @@ export function HomeHeroBlock() {
             <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
             <Link
               href="/contact"
+              prefetch
               className="inline-flex h-11 items-center text-sm text-foreground drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] underline-offset-4 hover:underline"
             >
               {site.ctaSecondary}

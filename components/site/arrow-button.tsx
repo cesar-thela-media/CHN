@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,7 +14,7 @@ type Props = {
   onClick?: () => void;
 };
 
-/** Sliding-arrow CTA (Shadcnspace-inspired), CHN brand. */
+/** Sliding-arrow CTA. Prefetch on; short hover so click feels immediate. */
 export function ArrowButton({
   href,
   children,
@@ -46,20 +48,29 @@ export function ArrowButton({
   const iconSize = size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4";
 
   const classNames = cn(
-    "group relative inline-flex shrink-0 items-center overflow-hidden rounded-full p-1 font-medium whitespace-nowrap transition-all duration-500",
+    "group relative inline-flex shrink-0 items-center overflow-hidden rounded-full p-1 font-medium whitespace-nowrap transition-all duration-200",
     sizeStyles,
     styles,
     className,
   );
 
+  const handleClick = () => {
+    if (typeof window !== "undefined") {
+      void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      });
+    }
+    onClick?.();
+  };
+
   const inner = (
     <>
-      <span className="relative z-10 whitespace-nowrap transition-all duration-500">
+      <span className="relative z-10 whitespace-nowrap transition-all duration-200">
         {children}
       </span>
       <span
         className={cn(
-          "absolute flex items-center justify-center rounded-full transition-all duration-500 group-hover:rotate-45",
+          "absolute flex items-center justify-center rounded-full transition-all duration-200 group-hover:rotate-45",
           knobSize,
           knobTravel,
           knob,
@@ -72,14 +83,20 @@ export function ArrowButton({
 
   if (href.startsWith("#")) {
     return (
-      <a href={href} className={classNames} onClick={onClick}>
+      <a href={href} className={classNames} onClick={handleClick}>
         {inner}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={classNames} onClick={onClick}>
+    <Link
+      href={href}
+      prefetch
+      scroll
+      className={classNames}
+      onClick={handleClick}
+    >
       {inner}
     </Link>
   );

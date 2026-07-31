@@ -47,7 +47,7 @@ export function Header() {
     <header
       data-chn-chrome="shadcn-space-navbar-08"
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-200",
         scrolled
           ? "border-b border-border/80 bg-background/88 backdrop-blur-xl"
           : "bg-transparent",
@@ -86,7 +86,7 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-[4.75rem] items-center justify-between gap-5 transition-all duration-500 md:h-[5.25rem]",
+            "flex h-[4.75rem] items-center justify-between gap-5 transition-all duration-200 md:h-[5.25rem]",
             scrolled && "h-[4.25rem] md:h-[4.75rem]",
           )}
           aria-label="Primary"
@@ -94,6 +94,7 @@ export function Header() {
           <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
             <Link
               href="/"
+              prefetch
               className="relative z-10 flex shrink-0 items-center"
               aria-label={`${site.name} home`}
             >
@@ -127,6 +128,7 @@ export function Header() {
                       <div className="inline-flex items-center">
                         <Link
                           href="/services"
+                          prefetch
                           className={cn(
                             "inline-flex items-center rounded-sm px-2.5 py-2 text-[13px] tracking-wide transition-colors",
                             isActive("/services")
@@ -155,6 +157,7 @@ export function Header() {
                         <div className="absolute left-0 top-full z-50 w-72 border border-border bg-card/98 p-2 shadow-soft backdrop-blur-xl">
                           <Link
                             href="/services"
+                            prefetch
                             className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-elevated"
                           >
                             All services

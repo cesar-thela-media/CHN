@@ -100,7 +100,7 @@ function Services({
 
     const refresh = () => ScrollTrigger.refresh();
     const t1 = window.setTimeout(refresh, 100);
-    const t2 = window.setTimeout(refresh, 500);
+    const t2 = window.setTimeout(refresh, 150);
     window.addEventListener("load", refresh);
     window.addEventListener("resize", refresh);
 
@@ -196,8 +196,14 @@ function Services({
                     <Link
                       key={value.heading}
                       href={href}
+                      prefetch
                       data-service-index={index}
                       data-active={isActive ? "true" : "false"}
+                      onClick={() => {
+                        void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+                          ScrollTrigger.getAll().forEach((tr) => tr.kill());
+                        });
+                      }}
                       className={cn(
                         "relative flex flex-col items-start justify-between gap-2 border-t border-border py-5 transition-all duration-300 xl:flex-row xl:items-center xl:gap-8 xl:py-6 last:border-b",
                         isActive
