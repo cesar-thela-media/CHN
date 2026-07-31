@@ -28,7 +28,7 @@ export default function ServicesPage() {
               </p>
             </div>
             <ArrowButton href="/contact" size="sm">
-              Begin your journey
+              Begin Your Journey
             </ArrowButton>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
             </p>
           </div>
           <ArrowButton href="/contact" size="sm">
-            Get in touch
+            Begin Your Journey
           </ArrowButton>
         </div>
       </section>

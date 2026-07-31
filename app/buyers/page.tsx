@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Faq from "@/components/shadcn-space/blocks/faq-01/faq";
 import { ArrowButton } from "@/components/site/arrow-button";
-import { ContactForm } from "@/components/site/contact-form";
 
 export const metadata: Metadata = {
   title: "For Buyers",
@@ -49,7 +48,6 @@ const chapters = [
 export default function BuyersPage() {
   return (
     <>
-      {/* Split hero: text rail + tall image (not full-bleed page hero) */}
       <section
         data-shadcn-space="feature-13"
         className="border-b border-border pt-28 md:pt-32"
@@ -64,8 +62,8 @@ export default function BuyersPage() {
               Complimentary white-glove. Concept to keys. Nothing owed to us.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <ArrowButton href="#schedule" size="sm">
-                Schedule consultation
+              <ArrowButton href="/contact" size="sm">
+                Begin Your Journey
               </ArrowButton>
               <Link
                 href="/services"
@@ -102,7 +100,6 @@ export default function BuyersPage() {
         </div>
       </section>
 
-      {/* Horizontal chapters */}
       <section className="border-b border-border bg-elevated/20 py-14 md:py-20">
         <div className="container-site">
           <p className="eyebrow">What to expect</p>
@@ -121,7 +118,6 @@ export default function BuyersPage() {
         </div>
       </section>
 
-      {/* Value strip with unique image */}
       <section className="border-b border-border py-16 md:py-24">
         <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="img-frame relative aspect-[5/4] overflow-hidden">
@@ -156,30 +152,23 @@ export default function BuyersPage() {
         </div>
       </section>
 
-      <Faq
-        items={buyerFaqs}
-        eyebrow="FAQs"
-        title="Clear answers."
-      />
+      <Faq items={buyerFaqs} eyebrow="FAQs" title="Clear answers." />
 
-      <section
-        id="schedule"
-        data-shadcn-space="contact-01"
-        className="border-t border-border bg-elevated/25 py-16 md:py-24"
-      >
-        <div className="container-site grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <p className="eyebrow">Schedule</p>
-            <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">
+      {/* Single conversion path → /contact (no embedded form) */}
+      <section className="border-t border-border py-16 md:py-20">
+        <div className="container-site flex flex-col items-start justify-between gap-6 border border-border bg-elevated/20 p-8 md:flex-row md:items-center md:p-12">
+          <div>
+            <p className="eyebrow">Next step</p>
+            <h2 className="mt-2 font-display text-2xl text-foreground md:text-3xl">
               Start with a conversation.
             </h2>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Private consultation. No sales script.
+            <p className="mt-2 text-sm text-muted-foreground">
+              Schedule on the contact page. Private consultation. No sales script.
             </p>
           </div>
-          <div className="rounded-sm border border-border bg-card p-6 md:p-8 lg:col-span-7">
-            <ContactForm />
-          </div>
+          <ArrowButton href="/contact" size="sm">
+            Begin Your Journey
+          </ArrowButton>
         </div>
       </section>
     </>

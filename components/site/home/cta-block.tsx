@@ -1,14 +1,12 @@
 "use client";
 
 /**
- * Adapted from Shadcnspace cta-08, conversion band → /contact.
- * Minimal premium copy.
+ * Sitewide conversion band → /contact only.
  */
-import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowButton } from "@/components/site/arrow-button";
 import { site } from "@/lib/site";
 
 const perks = [
@@ -65,7 +63,7 @@ export function CtaBlock() {
                 variants={fadeUp}
                 className="max-w-md text-sm leading-relaxed text-white/80 sm:text-base"
               >
-                One conversation. A clear path forward.
+                One conversation. Continue on Contact.
               </motion.p>
               <motion.ul
                 variants={fadeUp}
@@ -78,22 +76,8 @@ export function CtaBlock() {
                   </li>
                 ))}
               </motion.ul>
-              <motion.div
-                variants={fadeUp}
-                className="mt-2 flex flex-wrap items-center justify-center gap-4"
-              >
-                <Button
-                  asChild
-                  className="h-11 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90"
-                >
-                  <Link href="/contact">Get in Touch</Link>
-                </Button>
-                <Link
-                  href="/services"
-                  className="text-sm text-white/80 underline-offset-4 hover:text-white hover:underline"
-                >
-                  Explore services
-                </Link>
+              <motion.div variants={fadeUp} className="mt-2">
+                <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
               </motion.div>
             </motion.div>
           </div>
