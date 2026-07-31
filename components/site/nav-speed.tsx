@@ -1,9 +1,10 @@
 "use client";
 
 /**
- * Prefetch primary routes + clean GSAP pins on route change for snappy nav.
+ * Prefetch primary routes. Clean GSAP only when LEAVING a page,
+ * never on initial home mount (that was killing the services pin).
  */
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { primaryNav, servicesNav } from "@/lib/navigation";
 
@@ -18,8 +19,8 @@ const PREFETCH = [
 export function NavSpeed() {
   const router = useRouter();
   const pathname = usePathname();
+  const prevPath = useRef<string | null>(null);
 
-  // Prefetch all chrome destinations once hydrated
   useEffect(() => {
     const unique = [...new Set(PREFETCH)];
     for (const href of unique) {
@@ -31,9 +32,16 @@ export function NavSpeed() {
     }
   }, [router]);
 
-  // On every route change: kill leftover ScrollTrigger pins (home services)
-  // and snap to top without animation delay
   useEffect(() => {
+    const previous = prevPath.current;
+    prevPath.current = pathname;
+
+    // First mount: do NOT kill ScrollTriggers (services pin must live)
+    if (previous === null) return;
+
+    // Only when actually changing routes
+    if (previous === pathname) return;
+
     let cancelled = false;
     void (async () => {
       try {
@@ -42,17 +50,15 @@ export function NavSpeed() {
         if (cancelled) return;
         gsap.registerPlugin(ScrollTrigger);
         ScrollTrigger.getAll().forEach((t) => t.kill());
-        // clear any pin-spacer artifacts / inline styles on body
         document.body.style.removeProperty("overflow");
         document.body.style.removeProperty("padding-right");
         document.documentElement.style.removeProperty("overflow");
       } catch {
-        /* gsap optional on non-home */
+        /* optional */
       }
-      if (!cancelled) {
-        window.scrollTo(0, 0);
-      }
+      if (!cancelled) window.scrollTo(0, 0);
     })();
+
     return () => {
       cancelled = true;
     };

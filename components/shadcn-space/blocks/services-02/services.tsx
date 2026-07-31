@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * Services-02 (CHN): GSAP ScrollTrigger pin + step through 6 disciplines.
- * Scroll replaces hover as the primary interaction.
+ * Services scroll-PIN (GSAP ScrollTrigger).
+ * Section sticks full-viewport; further scroll advances 01→06, then releases.
  */
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -32,6 +32,8 @@ export interface ServicesProps {
 
 export const servicesData: ServiceItem[] = [];
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Services({
   data = servicesData,
   eyebrow = "Services",
@@ -42,17 +44,16 @@ function Services({
 }: ServicesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
-  const rootRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const count = Math.max(data.length, 1);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!data.length || typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
 
-    const root = rootRef.current;
+    const section = sectionRef.current;
     const pin = pinRef.current;
-    if (!root || !pin) return;
+    if (!section || !pin) return;
 
     const setIndex = (idx: number) => {
       const next = Math.max(0, Math.min(count - 1, idx));
@@ -62,71 +63,87 @@ function Services({
     };
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const mm = gsap.matchMedia();
 
-    const ctx = gsap.context(() => {
-      if (reduce) {
+    mm.add(
+      {
+        isDesktop: "(min-width: 768px)",
+        isMobile: "(max-width: 767px)",
+        reduceMotion: "(prefers-reduced-motion: reduce)",
+      },
+      (context) => {
+        const { isMobile, reduceMotion } = context.conditions as {
+          isDesktop: boolean;
+          isMobile: boolean;
+          reduceMotion: boolean;
+        };
+
+        if (reduce || reduceMotion) {
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top 60%",
+            end: "bottom 40%",
+            onUpdate: (self) => {
+              setIndex(Math.min(count - 1, Math.floor(self.progress * count)));
+            },
+          });
+          return;
+        }
+
+        const vh = window.innerHeight;
+        // ~1 viewport of scroll per discipline so the pin is unmistakable
+        const scrollPerStep = Math.round(vh * (isMobile ? 0.7 : 1.05));
+        const endDistance = scrollPerStep * count;
+
         ScrollTrigger.create({
-          trigger: root,
-          start: "top 70%",
-          end: "bottom 30%",
+          id: "chn-services-pin",
+          trigger: section,
+          pin: pin,
+          pinSpacing: true,
+          pinType: "fixed",
+          start: "top top",
+          end: `+=${endDistance}`,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
-            setIndex(Math.min(count - 1, Math.floor(self.progress * count)));
+            const idx = Math.min(
+              count - 1,
+              Math.floor(self.progress * count + 0.0001),
+            );
+            setIndex(idx);
           },
         });
-        return;
-      }
 
-      const scrollPer = Math.round(window.innerHeight * (isMobile ? 0.45 : 0.9));
-      const totalScroll =
-        scrollPer * count + Math.round(window.innerHeight * 0.12);
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+      },
+    );
 
-      ScrollTrigger.create({
-        id: "chn-services-pin",
-        trigger: root,
-        start: "top top",
-        end: `+=${totalScroll}`,
-        pin: pin,
-        pinSpacing: true,
-        scrub: isMobile ? 0.2 : 0.35,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const t = Math.min(0.999, Math.max(0, self.progress));
-          setIndex(Math.min(count - 1, Math.floor(t * count)));
-        },
-      });
-    }, root);
-
-    const refresh = () => ScrollTrigger.refresh();
-    const t1 = window.setTimeout(refresh, 100);
-    const t2 = window.setTimeout(refresh, 150);
-    window.addEventListener("load", refresh);
-    window.addEventListener("resize", refresh);
+    const onResize = () => ScrollTrigger.refresh();
+    window.addEventListener("resize", onResize);
+    const t = window.setTimeout(() => ScrollTrigger.refresh(), 400);
 
     return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-      window.removeEventListener("load", refresh);
-      window.removeEventListener("resize", refresh);
-      ctx.revert();
+      window.clearTimeout(t);
+      window.removeEventListener("resize", onResize);
+      mm.revert();
     };
   }, [count, data]);
 
   return (
     <section
-      ref={rootRef}
+      ref={sectionRef}
       data-shadcn-space="services-02"
       id="services"
       className="relative bg-background"
     >
       <div
         ref={pinRef}
-        className="flex min-h-[100svh] flex-col justify-center bg-background will-change-transform"
+        className="flex min-h-[100svh] flex-col justify-center bg-background"
         data-services-pin
       >
-        <div className="container-site py-16 sm:py-18 lg:py-20">
-          <div className="flex flex-col gap-10 sm:gap-12">
+        <div className="container-site py-14 sm:py-16 lg:py-18">
+          <div className="flex flex-col gap-8 sm:gap-10">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="flex max-w-2xl flex-col gap-3">
                 <Badge
@@ -151,7 +168,7 @@ function Services({
                 asChild
                 className="group flex h-auto w-fit items-center justify-between gap-2 rounded-full border-0 bg-primary p-1 ps-5 font-medium text-primary-foreground hover:bg-primary/90"
               >
-                <Link href={ctaHref}>
+                <Link href={ctaHref} prefetch>
                   <span className="text-sm font-medium">{ctaLabel}</span>
                   <span className="rounded-full bg-background p-2 transition-transform duration-300 group-hover:rotate-45">
                     <Icon
@@ -166,7 +183,7 @@ function Services({
             </div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-              <div className="img-frame relative aspect-[4/3] w-full overflow-hidden bg-elevated lg:col-span-5 lg:aspect-auto lg:min-h-[26rem]">
+              <div className="img-frame relative aspect-[4/3] w-full overflow-hidden bg-elevated lg:col-span-5 lg:aspect-auto lg:min-h-[24rem] lg:max-h-[min(28rem,50svh)]">
                 {data.map((item, index) => (
                   <div
                     key={item.image + item.heading}
@@ -199,13 +216,8 @@ function Services({
                       prefetch
                       data-service-index={index}
                       data-active={isActive ? "true" : "false"}
-                      onClick={() => {
-                        void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-                          ScrollTrigger.getAll().forEach((tr) => tr.kill());
-                        });
-                      }}
                       className={cn(
-                        "relative flex flex-col items-start justify-between gap-2 border-t border-border py-5 transition-all duration-300 xl:flex-row xl:items-center xl:gap-8 xl:py-6 last:border-b",
+                        "relative flex flex-col items-start justify-between gap-2 border-t border-border py-4 transition-colors duration-300 xl:flex-row xl:items-center xl:gap-8 xl:py-5 last:border-b",
                         isActive
                           ? "border-cream/40 bg-elevated/50"
                           : "opacity-45",
