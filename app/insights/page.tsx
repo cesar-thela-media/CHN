@@ -2,146 +2,97 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { NewsletterForm } from "@/components/site/newsletter-form";
 import { insights } from "@/lib/insights";
 
 export const metadata: Metadata = {
- title: "Insights",
- description:
- "Notes on land, design, and the decisions that make a custom home feel inevitable, from Custom Home Network.",
+  title: "Insights",
+  description:
+    "Notes on land, design, and building carefully from Custom Home Network.",
 };
 
 function formatDate(iso: string) {
- return new Date(iso).toLocaleDateString("en-US", {
- year: "numeric",
- month: "long",
- day: "numeric",
- });
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export default function InsightsIndexPage() {
- const [hero, ...rest] = insights;
+  return (
+    <div className="pt-28 md:pt-32">
+      {/* Magazine masthead */}
+      <section className="border-b border-border pb-10 md:pb-14">
+        <div className="container-site">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow">Insights</p>
+              <h1 className="mt-3 max-w-xl font-display text-4xl tracking-tight text-foreground md:text-6xl">
+                Clarity in every decision.
+              </h1>
+            </div>
+            <p className="max-w-xs text-sm text-muted-foreground md:text-right">
+              Land. Design. Process. Short reads for careful builders.
+            </p>
+          </div>
+        </div>
+      </section>
 
- return (
- <div className="pt-28 md:pt-32">
- <section className="border-b border-border pb-12 md:pb-16">
- <div className="container-site">
- <p className="eyebrow">Insights</p>
- <h1 className="display-lg mt-4 max-w-2xl text-4xl text-foreground md:text-6xl">
- Personality in every room, and clarity in every decision.
- </h1>
- <p className="body-lg mt-5 max-w-xl">
- Editorial notes for people building carefully: land, design, process, and the economics
- of a partner-funded network.
- </p>
- </div>
- </section>
+      {/* Vertical editorial list (distinct from home blog-09 cards) */}
+      <section data-shadcn-space="blog-09" className="py-12 md:py-16">
+        <div className="container-site">
+          <ul className="divide-y divide-border border-y border-border">
+            {insights.map((article, i) => (
+              <li key={article.slug}>
+                <Link
+                  href={`/insights/${article.slug}`}
+                  className="group grid gap-6 py-10 transition-colors hover:bg-elevated/20 md:grid-cols-12 md:items-center md:gap-8 md:py-12"
+                >
+                  <span className="font-mono text-xs text-stone md:col-span-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="relative aspect-[16/10] overflow-hidden border border-border md:col-span-4 md:aspect-[5/3]">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      priority={i === 0}
+                    />
+                  </div>
+                  <div className="md:col-span-6">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-stone">
+                      {article.category} · {formatDate(article.date)} · {article.readMinutes} min
+                    </p>
+                    <h2 className="mt-2 font-display text-2xl tracking-tight text-foreground group-hover:text-cream md:text-3xl">
+                      {article.title}
+                    </h2>
+                    <p className="mt-2 max-w-lg text-sm text-muted-foreground">{article.excerpt}</p>
+                  </div>
+                  <span className="hidden text-cream md:col-span-1 md:inline-flex md:justify-end">
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
- {/* blog-09 style grid */}
- <section data-shadcn-space="blog-09" className="py-12 md:py-16">
- <div className="container-site flex flex-col gap-8">
- <Card className="group overflow-hidden rounded-sm border-border p-0 shadow-none">
- <CardContent className="flex flex-col p-0 md:flex-row">
- <Link
- href={`/insights/${hero.slug}`}
- className="relative h-64 w-full shrink-0 overflow-hidden md:h-auto md:w-7/12 lg:min-h-[22rem]"
- >
- <Image
- src={hero.image}
- alt={hero.title}
- fill
- className="object-cover transition-transform duration-500 group-hover:scale-105"
- sizes="(max-width: 768px) 100vw, 58vw"
- priority
- />
- </Link>
- <div className="flex flex-1 flex-col justify-between gap-8 p-6 lg:p-8">
- <div className="flex flex-col gap-3">
- <p className="text-xs uppercase tracking-[0.18em] text-stone">
- {hero.category} · {formatDate(hero.date)}
- </p>
- <Link href={`/insights/${hero.slug}`}>
- <h2 className="font-display text-2xl font-normal tracking-tight text-foreground transition-colors hover:text-cream lg:text-3xl">
- {hero.title}
- </h2>
- </Link>
- <p className="text-sm leading-relaxed text-muted-foreground">{hero.excerpt}</p>
- </div>
- <Link
- href={`/insights/${hero.slug}`}
- className="inline-flex w-fit items-center gap-2 text-sm font-medium text-foreground underline underline-offset-4"
- >
- Read article
- <ArrowRight size={16} />
- </Link>
- </div>
- </CardContent>
- </Card>
-
- <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
- {rest.map((article) => (
- <Card
- key={article.slug}
- className="group overflow-hidden rounded-sm border-border p-0 shadow-none lg:min-h-[16rem]"
- >
- <CardContent className="flex h-full flex-col p-0 lg:flex-row">
- <div className="flex min-h-[12rem] flex-col justify-between p-6 lg:w-1/2 lg:p-8">
- <div className="flex flex-col gap-2">
- <p className="text-xs uppercase tracking-[0.18em] text-stone">
- {article.category} · {article.readMinutes} min
- </p>
- <Link href={`/insights/${article.slug}`}>
- <h2 className="font-display text-xl font-normal text-foreground transition-colors hover:text-cream md:text-2xl">
- {article.title}
- </h2>
- </Link>
- <p className="text-sm text-muted-foreground line-clamp-3">
- {article.excerpt}
- </p>
- </div>
- <Link
- href={`/insights/${article.slug}`}
- className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-medium underline underline-offset-4"
- >
- Read more
- <ArrowRight size={16} />
- </Link>
- </div>
- <Link
- href={`/insights/${article.slug}`}
- className="relative h-48 w-full overflow-hidden lg:h-auto lg:flex-1"
- >
- <Image
- src={article.image}
- alt={article.title}
- fill
- className="object-cover transition-transform duration-500 group-hover:scale-105"
- sizes="(max-width: 768px) 100vw, 25vw"
- />
- </Link>
- </CardContent>
- </Card>
- ))}
- </div>
- </div>
- </section>
-
- <section className="border-t border-border bg-elevated/20 py-14 md:py-16">
- <div className="container-site flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
- <div className="max-w-md">
- <h2 className="font-display text-3xl tracking-tight md:text-4xl">
- Quiet notes on building well
- </h2>
- <p className="mt-3 text-sm text-muted-foreground">
- Occasional insights, no noise. Unsubscribe anytime.
- </p>
- </div>
- <div className="w-full max-w-md">
- <NewsletterForm />
- </div>
- </div>
- </section>
- </div>
- );
+      {/* Newsletter band */}
+      <section className="border-t border-border bg-elevated/25 py-14 md:py-16">
+        <div className="container-site grid gap-8 md:grid-cols-2 md:items-center">
+          <div>
+            <p className="eyebrow">Newsletter</p>
+            <h2 className="mt-3 font-display text-2xl text-foreground md:text-3xl">
+              Occasional notes. No noise.
+            </h2>
+          </div>
+          <NewsletterForm />
+        </div>
+      </section>
+    </div>
+  );
 }

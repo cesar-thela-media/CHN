@@ -1,106 +1,90 @@
 "use client";
 
 /**
- * Adapted from Shadcnspace hero-02, photo-forward, always-visible type.
+ * Homepage hero: Shadcnspace hero-02 media + CHN video from customhomenetwork.com
  */
 import Link from "next/link";
-import { Gift, Network, Percent, Sparkles } from "lucide-react";
-import { ArrowButton } from "@/components/site/arrow-button";
 import { site } from "@/lib/site";
+import { ArrowButton } from "@/components/site/arrow-button";
 
 const trustStats = [
- { icon: Gift, label: "At no cost to you", detail: "White-glove service" },
- { icon: Network, label: "Vetted partners", detail: "End-to-end network" },
- {
- icon: Percent,
- label: `${site.builderBonus} builder bonus`,
- detail: "Pre-negotiated for clients",
- },
- { icon: Sparkles, label: "Concept to completion", detail: "One journey" },
+  { value: "$0", label: "Cost to you" },
+  { value: site.builderBonus, label: "Builder bonus" },
+  { value: "6", label: "Disciplines" },
+  { value: "1", label: "Coordinated path" },
 ];
 
 export function HomeHeroBlock() {
- const videoSrc = site.assets.heroVideo;
+  return (
+    <section
+      data-shadcn-space="hero-02"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+    >
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1814]">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={site.assets.heroImage}
+          aria-hidden
+        >
+          <source src={site.assets.heroVideo} type="video/mp4" />
+        </video>
+        {/* Soft left-to-right fade for text legibility (no hard panel) */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(100deg, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.22) 48%, rgba(8,8,7,0.08) 100%), linear-gradient(to top, rgba(8,8,7,0.5) 0%, transparent 45%)",
+          }}
+        />
+      </div>
 
- return (
- <section
- data-shadcn-space="hero-02"
- className="relative flex min-h-[100svh] flex-col overflow-hidden md:min-h-[min(100svh,900px)]"
- >
- <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1814]">
- {videoSrc ? (
- <video
- className="absolute inset-0 h-full w-full object-cover"
- autoPlay
- muted
- loop
- playsInline
- poster={site.assets.heroImage}
- >
- <source src={videoSrc} type="video/mp4" />
- </video>
- ) : (
- // eslint-disable-next-line @next/next/no-img-element
- <img
- src={site.assets.heroImage}
- alt="Luxury custom residence"
- className="absolute inset-0 h-full w-full object-cover object-[center_28%]"
- fetchPriority="high"
- />
- )}
- {/* Light readability scrim only, architecture must read clearly */}
- <div
- className="pointer-events-none absolute inset-0"
- style={{
- background:
- "linear-gradient(100deg, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.22) 42%, rgba(8,8,7,0.05) 70%, rgba(8,8,7,0.2) 100%), linear-gradient(to top, rgba(8,8,7,0.55) 0%, rgba(8,8,7,0.0) 42%)",
- }}
- />
- </div>
+      <div className="container-site relative z-10 flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 sm:pt-40 md:pb-16">
+        <div className="relative max-w-xl lg:max-w-2xl">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)]">
+            {site.sloganAlt}
+          </p>
+          <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
+            {site.tagline}
+          </h1>
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)] sm:text-base md:text-lg">
+            {site.heroSubhead}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
+            <Link
+              href="/services"
+              prefetch
+              className="inline-flex h-11 items-center text-sm text-foreground drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] underline-offset-4 hover:underline"
+            >
+              Explore services
+            </Link>
+          </div>
+        </div>
+      </div>
 
- <div className="container-site relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 sm:justify-center sm:pb-12 md:pt-32">
- <div className="max-w-xl rounded-sm bg-ink/35 p-5 backdrop-blur-[2px] sm:max-w-2xl sm:bg-transparent sm:p-0 sm:backdrop-blur-0 lg:max-w-3xl">
- <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream">
- {site.sloganAlt}
- </p>
- <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-sm sm:text-5xl md:text-6xl lg:text-[4.1rem]">
- {site.tagline}
- </h1>
- <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 sm:text-base md:text-lg">
- Our complimentary white-glove service unlocks additional value at no cost to
- you, vetted partners coordinated from concept to completion. Clients also receive an
- exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
- </p>
- <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
- <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
- <Link
- href="/contact"
- className="inline-flex h-11 items-center text-sm text-foreground underline-offset-4 hover:underline"
- >
- {site.ctaSecondary}
- </Link>
- </div>
- </div>
- </div>
-
- <div className="relative z-10 border-t border-border/80 bg-background/95 backdrop-blur-md">
- <div className="container-site">
- <div className="grid grid-cols-2 sm:grid-cols-4">
- {trustStats.map((item) => (
- <div
- key={item.label}
- className="flex flex-col items-start gap-2 border-border px-3 py-5 sm:items-center sm:border-r sm:px-5 sm:py-6 sm:text-center sm:last:border-r-0 max-sm:[&:nth-child(odd)]:border-r max-sm:[&:nth-child(-n+2)]:border-b"
- >
- <item.icon className="h-5 w-5 text-cream" strokeWidth={1.25} />
- <div>
- <p className="text-xs font-medium text-foreground sm:text-sm">{item.label}</p>
- <p className="mt-0.5 text-[11px] text-muted-foreground">{item.detail}</p>
- </div>
- </div>
- ))}
- </div>
- </div>
- </div>
- </section>
- );
+      <div className="relative z-10 border-t border-border/80 bg-background/95 backdrop-blur-md">
+        <div className="container-site">
+          <div className="grid grid-cols-2 sm:grid-cols-4">
+            {trustStats.map((item) => (
+              <div
+                key={item.label}
+                className="flex flex-col items-start gap-2 border-border px-3 py-5 sm:items-center sm:border-r sm:px-5 sm:py-6 sm:text-center sm:last:border-r-0 max-sm:[&:nth-child(odd)]:border-r max-sm:[&:nth-child(-n+2)]:border-b"
+              >
+                <span className="font-display text-2xl tracking-tight text-foreground sm:text-3xl">
+                  {item.value}
+                </span>
+                <span className="text-[11px] uppercase tracking-[0.16em] text-stone">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

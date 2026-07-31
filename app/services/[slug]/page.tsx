@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { ArrowButton } from "@/components/site/arrow-button";
-import { CtaBlock } from "@/components/site/home/cta-block";
 import { FadeIn } from "@/components/site/fade-in";
 import {
   getAllServiceSlugs,
@@ -83,9 +82,6 @@ export default async function ServiceDetailPage({ params }: Props) {
             <p data-fade className="mt-5 max-w-xl text-base leading-relaxed text-foreground/85 sm:text-lg">
               {service.description}
             </p>
-            <div data-fade className="mt-8">
-              <ArrowButton href="/contact">Begin your journey</ArrowButton>
-            </div>
           </FadeIn>
         </div>
       </section>
@@ -138,7 +134,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             ))}
           </ul>
           <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <ArrowButton href="/contact">Talk through this service</ArrowButton>
+            <ArrowButton href="/contact">Begin Your Journey</ArrowButton>
             <Link
               href="/services"
               className="inline-flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
@@ -181,7 +177,6 @@ export default async function ServiceDetailPage({ params }: Props) {
         </nav>
       )}
 
-      <CtaBlock />
     </>
   );
 }

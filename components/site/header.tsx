@@ -2,9 +2,8 @@
 
 /**
  * Global header adapted from Shadcnspace `navbar-08`
- * (NavigationMenu + Sheet mobile drawer), restyled to CHN editorial tokens.
+ * Above-medium logo + compact primary CTA.
  */
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -48,7 +47,7 @@ export function Header() {
     <header
       data-chn-chrome="shadcn-space-navbar-08"
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-200",
         scrolled
           ? "border-b border-border/80 bg-background/88 backdrop-blur-xl"
           : "bg-transparent",
@@ -60,7 +59,7 @@ export function Header() {
           !scrolled && "bg-background/40",
         )}
       >
-        <div className="container-site flex h-9 items-center justify-between gap-4 text-[11px] tracking-wide text-muted-foreground">
+        <div className="container-site flex h-8 items-center justify-between gap-4 text-[11px] tracking-wide text-muted-foreground">
           <div className="flex min-w-0 items-center gap-4">
             <a
               href={`mailto:${site.email}`}
@@ -87,72 +86,88 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-[4.25rem] items-center justify-between gap-4 transition-all duration-500 md:h-[4.5rem]",
-            scrolled && "md:h-16",
+            "flex h-[4.75rem] items-center justify-between gap-5 transition-all duration-200 md:h-[5.25rem]",
+            scrolled && "h-[4.25rem] md:h-[4.75rem]",
           )}
           aria-label="Primary"
         >
-          <div className="flex min-w-0 items-center gap-6 lg:gap-8">
+          <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
             <Link
               href="/"
-              className="relative z-10 shrink-0"
+              prefetch
+              className="relative z-10 flex shrink-0 items-center"
               aria-label={`${site.name} home`}
             >
-              <Image
+              {/* Above-medium: ~48–52px desktop, ~40–44px mobile; max ~220–240px */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={site.assets.logoWhite}
                 alt={site.name}
-                width={148}
-                height={42}
-                className="h-8 w-auto object-contain md:h-9"
-                priority
+                width={240}
+                height={52}
+                className="h-[42px] w-auto max-w-[200px] object-contain object-left sm:h-[46px] sm:max-w-[220px] md:h-[50px] md:max-w-[230px] lg:h-[52px] lg:max-w-[240px]"
+                fetchPriority="high"
               />
             </Link>
 
             <Separator
               orientation="vertical"
-              className="hidden h-5 data-[orientation=vertical]:h-5 lg:block"
+              className="hidden h-6 data-[orientation=vertical]:h-6 lg:block"
             />
 
-            <ul className="hidden items-center gap-0.5 lg:flex">
+            <ul className="hidden min-w-0 items-center gap-0.5 lg:flex">
               {primaryNav.map((item) => {
                 if (item.href === "/services") {
                   return (
-                    <li key={item.href} className="relative">
-                      <button
-                        type="button"
-                        className={cn(
-                          "inline-flex items-center gap-1 rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
-                          isActive("/services")
-                            ? "text-foreground"
-                            : "text-muted-foreground hover:text-foreground",
-                        )}
-                        aria-expanded={servicesOpen}
-                        onClick={() => setServicesOpen((v) => !v)}
-                        onBlur={() => {
-                          window.setTimeout(() => setServicesOpen(false), 150);
-                        }}
-                      >
-                        Services
-                        <ChevronDown
+                    <li
+                      key={item.href}
+                      className="relative"
+                      onMouseEnter={() => setServicesOpen(true)}
+                      onMouseLeave={() => setServicesOpen(false)}
+                    >
+                      <div className="inline-flex items-center">
+                        <Link
+                          href="/services"
+                          prefetch
                           className={cn(
-                            "h-3.5 w-3.5 transition-transform",
-                            servicesOpen && "rotate-180",
+                            "inline-flex items-center rounded-sm px-2.5 py-2 text-[13px] tracking-wide transition-colors",
+                            isActive("/services")
+                              ? "text-foreground"
+                              : "text-muted-foreground hover:text-foreground",
                           )}
-                        />
-                      </button>
+                        >
+                          {item.label}
+                        </Link>
+                        <button
+                          type="button"
+                          className="rounded-sm p-1 text-muted-foreground hover:text-foreground"
+                          aria-label="Services menu"
+                          aria-expanded={servicesOpen}
+                          onClick={() => setServicesOpen((v) => !v)}
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "h-3.5 w-3.5 transition-transform",
+                              servicesOpen && "rotate-180",
+                            )}
+                          />
+                        </button>
+                      </div>
                       {servicesOpen && (
-                        <div className="absolute left-0 top-full z-50 mt-1 min-w-[14rem] border border-border bg-card p-2 shadow-soft">
+                        <div className="absolute left-0 top-full z-50 w-72 border border-border bg-card/98 p-2 shadow-soft backdrop-blur-xl">
                           <Link
                             href="/services"
-                            className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-secondary"
+                            prefetch
+                            className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-elevated"
                           >
                             All services
                           </Link>
+                          <Separator className="my-1" />
                           {servicesNav.map((s) => (
                             <Link
                               key={s.href}
                               href={s.href}
-                              className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                              className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-elevated hover:text-foreground"
                             >
                               {s.label}
                             </Link>
@@ -167,7 +182,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex rounded-sm px-3 py-2 text-[13px] tracking-wide transition-colors",
+                        "inline-flex whitespace-nowrap rounded-sm px-2.5 py-2 text-[13px] tracking-wide transition-colors",
                         isActive(item.href)
                           ? "text-foreground"
                           : "text-muted-foreground hover:text-foreground",
@@ -181,55 +196,79 @@ export function Header() {
             </ul>
           </div>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <ArrowButton
-              href="/contact"
-              className="h-10 ps-5 pe-12 text-xs hover:ps-12 hover:pe-5"
-            >
-              {site.ctaPrimary}
-            </ArrowButton>
-          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <div className="hidden sm:block">
+              <ArrowButton href="/contact" size="sm">
+                Begin Your Journey
+              </ArrowButton>
+            </div>
 
-          <div className="lg:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button
-                  type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="icon"
-                  className="h-11 w-11 rounded-sm border-border"
+                  className="lg:hidden"
                   aria-label="Open menu"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-background p-0">
-                <SheetHeader className="border-b border-border">
-                  <SheetTitle>Menu</SheetTitle>
+              <SheetContent
+                side="right"
+                className="w-[min(100vw,22rem)] border-border bg-background"
+              >
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <div className="flex justify-start">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={site.assets.logoWhite}
+                      alt={site.name}
+                      width={220}
+                      height={48}
+                      className="h-11 w-auto max-w-[200px] object-contain object-left"
+                    />
+                  </div>
                 </SheetHeader>
-                <div className="flex flex-1 flex-col gap-1 px-4 py-4">
+                <div className="mt-8 flex flex-col gap-1">
                   {primaryNav.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "border-b border-border/60 py-3.5 text-base transition-colors",
+                        "rounded-sm px-3 py-3 text-base",
                         isActive(item.href)
-                          ? "text-foreground"
+                          ? "bg-elevated text-foreground"
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {item.label}
                     </Link>
                   ))}
-                  <div className="mt-6">
+                  <Separator className="my-3" />
+                  <p className="px-3 text-[11px] uppercase tracking-[0.2em] text-stone">
+                    Services
+                  </p>
+                  {servicesNav.map((s) => (
+                    <Link
+                      key={s.href}
+                      href={s.href}
+                      onClick={() => setOpen(false)}
+                      className="rounded-sm px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                  <div className="mt-6 px-3">
                     <ArrowButton
                       href="/contact"
-                      className="w-full justify-start"
+                      size="sm"
+                      className="w-full justify-center"
                       onClick={() => setOpen(false)}
                     >
-                      {site.ctaPrimary}
+                      Begin Your Journey
                     </ArrowButton>
                   </div>
                 </div>

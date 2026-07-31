@@ -1,218 +1,183 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
- Building2,
- DraftingCompass,
- Hammer,
- Landmark,
- Palette,
- Home,
+  Building2,
+  DraftingCompass,
+  Hammer,
+  Landmark,
+  Palette,
+  Home,
 } from "lucide-react";
-import { PageHero } from "@/components/site/page-hero";
 import { PartnerForm } from "@/components/site/partner-form";
-import { CtaBlock } from "@/components/site/home/cta-block";
-import { FadeIn } from "@/components/site/fade-in";
-import { Badge } from "@/components/ui/badge";
+import { ArrowButton } from "@/components/site/arrow-button";
 
 export const metadata: Metadata = {
- title: "For Partners",
- description:
- "Join the Custom Home Network, Realtors, architects, builders, finance, title, and design professionals serving intentional custom-home clients.",
+  title: "For Partners",
+  description:
+    "Join Custom Home Network: Realtors, architects, builders, finance, title, and design professionals.",
 };
 
 const partnerTypes = [
- {
- title: "Realtors",
- description:
- "Introduce clients who need land or a path to build, not only a resale transaction.",
- icon: Home,
- },
- {
- title: "Architects",
- description:
- "Work with prepared owners who value design process and long-term craft.",
- icon: DraftingCompass,
- },
- {
- title: "Builders",
- description:
- "High-intent custom projects with clear coordination and fair economics.",
- icon: Hammer,
- },
- {
- title: "Finance & Title",
- description:
- "Complex capital and closing paths handled with calm specialists.",
- icon: Landmark,
- },
- {
- title: "Interior Design",
- description:
- "Finish work that feels collected, aligned to architecture from day one.",
- icon: Palette,
- },
- {
- title: "Land & Development",
- description:
- "Sites and due diligence for owners who refuse a generic lot.",
- icon: Building2,
- },
+  { title: "Realtors", d: "Clients ready to land or build.", icon: Home },
+  { title: "Architects", d: "Owners who value process.", icon: DraftingCompass },
+  { title: "Builders", d: "High-intent custom work.", icon: Hammer },
+  { title: "Finance & Title", d: "Calm capital and closings.", icon: Landmark },
+  { title: "Interiors", d: "Finish aligned to architecture.", icon: Palette },
+  { title: "Land", d: "Sites for serious builds.", icon: Building2 },
 ];
 
-const whyJoin = [
- {
- title: "Aligned clients",
- body: "People who intend to build carefully, not tire-kickers shopping a free bid.",
- },
- {
- title: "Clean handoffs",
- body: "We keep context alive so partners inherit a clear brief, not a cold start.",
- },
- {
- title: "Shared standard",
- body: "Craft, communication, and calm execution, not volume marketing theatrics.",
- },
+const reasons = [
+  { t: "Aligned clients", d: "People who intend to build carefully." },
+  { t: "Clean handoffs", d: "Full context, not a cold start." },
+  { t: "Shared standard", d: "Craft and clear communication." },
 ];
 
 export default function PartnersPage() {
- return (
- <>
- <PageHero
- blockId="hero-02"
- eyebrow="For partners"
- title="Build with clients who value craft."
- description="Join a curated network of Realtors, architects, builders, finance, title, and design professionals serving high-intent custom home clients."
- image="/images/custombuilding.jpg"
- primaryCta={{ href: "#apply", label: "Apply to join" }}
- secondaryCta={{ href: "/buyers", label: "See buyer experience" }}
- />
+  return (
+    <>
+      {/* Centered manifesto hero (distinct from buyers split) */}
+      <section className="border-b border-border pt-28 md:pt-36">
+        <div className="container-site pb-16 text-center md:pb-20">
+          <p className="eyebrow justify-center">For partners</p>
+          <h1 className="mx-auto mt-4 max-w-3xl font-display text-4xl tracking-tight text-foreground md:text-6xl">
+            Build with clients who value craft.
+          </h1>
+          <p className="mx-auto mt-5 max-w-lg text-base text-muted-foreground">
+            A curated network for high-intent custom homes.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <ArrowButton href="#apply" size="sm">
+              Apply to join
+            </ArrowButton>
+            <Link
+              href="/buyers"
+              className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              Buyer experience
+            </Link>
+          </div>
+        </div>
+        <div className="container-site pb-0">
+          <div className="img-frame relative mx-auto aspect-[21/9] max-h-[420px] w-full overflow-hidden border border-border">
+            <Image
+              src="/images/page-partners.jpg"
+              alt="Architecture models and materials"
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+            />
+          </div>
+        </div>
+      </section>
 
- <section data-shadcn-space="feature-01" className="border-b border-border py-16 md:py-24">
- <div className="container-site">
- <FadeIn>
- <p data-fade className="eyebrow">
- Why join
- </p>
- <h2 data-fade className="display-lg mt-4 max-w-2xl text-3xl text-foreground md:text-5xl">
- Serious work. Serious clients. Less chaos between firms.
- </h2>
- </FadeIn>
- <div className="mt-12 grid gap-6 md:grid-cols-3">
- {whyJoin.map((item) => (
- <div
- key={item.title}
- className="border border-border bg-card/30 p-6 md:p-8"
- >
- <h3 className="font-display text-2xl text-foreground">{item.title}</h3>
- <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
- {item.body}
- </p>
- </div>
- ))}
- </div>
- </div>
- </section>
+      {/* Why: three columns on cream-elevated */}
+      <section className="border-b border-border py-16 md:py-20">
+        <div className="container-site">
+          <p className="eyebrow">Why join</p>
+          <h2 className="mt-3 max-w-xl font-display text-3xl text-foreground md:text-4xl">
+            Serious work. Less chaos.
+          </h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {reasons.map((r) => (
+              <div key={r.t} className="border-l border-cream/40 pl-5">
+                <h3 className="font-display text-xl text-foreground">{r.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{r.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
- <section
- data-shadcn-space="team-05"
- className="border-b border-border bg-elevated/15 py-16 md:py-24"
- >
- <div className="container-site">
- <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
- <div>
- <Badge
- variant="outline"
- className="h-auto border-border px-3 py-1 text-xs uppercase tracking-[0.2em] text-stone"
- >
- Network roles
- </Badge>
- <h2 className="mt-4 font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
- Partner types we welcome
- </h2>
- </div>
- <p className="max-w-md text-sm text-muted-foreground md:text-base">
- Apply if you deliver custom-home work with craftsmanship and clear communication.
- </p>
- </div>
- <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
- {partnerTypes.map((p) => (
- <div
- key={p.title}
- className="group border border-border bg-card/40 p-6 transition-colors hover:border-line hover:bg-card/70"
- >
- <p.icon className="h-7 w-7 text-cream" strokeWidth={1.25} />
- <h3 className="mt-5 font-display text-xl text-foreground">{p.title}</h3>
- <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
- {p.description}
- </p>
- </div>
- ))}
- </div>
- </div>
- </section>
+      {/* Roles: dense icon grid */}
+      <section
+        data-shadcn-space="team-05"
+        className="border-b border-border bg-elevated/20 py-16 md:py-24"
+      >
+        <div className="container-site">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <h2 className="font-display text-3xl text-foreground md:text-4xl">
+              Roles we welcome
+            </h2>
+            <p className="max-w-sm text-sm text-muted-foreground">
+              Craft and clear communication required.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {partnerTypes.map((p) => (
+              <div
+                key={p.title}
+                className="flex items-start gap-4 border border-border bg-background/80 p-5"
+              >
+                <p.icon className="mt-0.5 h-6 w-6 shrink-0 text-cream" strokeWidth={1.25} />
+                <div>
+                  <h3 className="font-display text-lg text-foreground">{p.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{p.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
- <section className="border-b border-border py-16 md:py-20">
- <div className="container-site grid gap-10 lg:grid-cols-12 lg:items-center">
- <div className="img-frame relative aspect-[5/4] overflow-hidden lg:col-span-5">
- <Image
- src="/images/unlockvalue.jpg"
- alt="Collaborative custom home planning"
- fill
- className="object-cover"
- sizes="(max-width: 1024px) 100vw, 40vw"
- />
- </div>
- <div className="lg:col-span-6 lg:col-start-7">
- <p className="eyebrow">How it works</p>
- <h2 className="display-lg mt-4 text-3xl text-foreground md:text-4xl">
- Introduced when the fit is real.
- </h2>
- <ol className="mt-8 space-y-6">
- {[
- "Apply with your specialty, markets, and standard of work.",
- "We review alignment with network quality and capacity.",
- "When a buyer journey needs your discipline, we introduce you with full context.",
- ].map((step, i) => (
- <li
- key={step}
- className="flex gap-4 border-t border-border pt-6 first:border-0 first:pt-0"
- >
- <span className="font-mono text-xs text-stone">
- {String(i + 1).padStart(2, "0")}
- </span>
- <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
- {step}
- </p>
- </li>
- ))}
- </ol>
- </div>
- </div>
- </section>
+      {/* How: numbered single column */}
+      <section className="border-b border-border py-16 md:py-20">
+        <div className="container-site max-w-2xl">
+          <p className="eyebrow">How it works</p>
+          <h2 className="mt-3 font-display text-3xl text-foreground">
+            Introduced when the fit is real.
+          </h2>
+          <ol className="mt-10 space-y-0">
+            {[
+              "Apply with specialty, markets, and standard of work.",
+              "We review quality and capacity.",
+              "When a journey needs you, we introduce with full context.",
+            ].map((step, i) => (
+              <li
+                key={step}
+                className="flex gap-5 border-t border-border py-6 first:border-t-0"
+              >
+                <span className="font-mono text-xs text-stone">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="text-base text-foreground/90">{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
- <section
- id="apply"
- data-shadcn-space="contact-01"
- className="border-b border-border bg-elevated/25 py-16 md:py-24"
- >
- <div className="container-site grid gap-12 lg:grid-cols-2 lg:gap-16">
- <div>
- <p className="eyebrow">Partner application</p>
- <h2 className="display-lg mt-4 text-3xl text-foreground md:text-4xl">
- Tell us who you are.
- </h2>
- <p className="body-lg mt-5">
- Share your practice and markets. We review every application carefully and respond
- when there is a fit.
- </p>
- </div>
- <div className="rounded-sm border border-border bg-card p-6 md:p-8">
- <PartnerForm />
- </div>
- </div>
- </section>
-
- <CtaBlock />
- </>
- );
+      {/* Apply: form first on large screens */}
+      <section
+        id="apply"
+        data-shadcn-space="contact-01"
+        className="border-b border-border py-16 md:py-24"
+      >
+        <div className="container-site grid gap-10 lg:grid-cols-12">
+          <div className="order-2 rounded-sm border border-border bg-card p-6 md:p-8 lg:order-1 lg:col-span-7">
+            <PartnerForm />
+          </div>
+          <div className="order-1 lg:order-2 lg:col-span-5">
+            <p className="eyebrow">Application</p>
+            <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">
+              Tell us who you are.
+            </h2>
+            <p className="mt-4 text-sm text-muted-foreground">
+              We review carefully and respond when there is a fit.
+            </p>
+            <div className="relative mt-10 hidden aspect-[4/3] overflow-hidden border border-border lg:block">
+              <Image
+                src="/images/svc-finance.jpg"
+                alt=""
+                fill
+                className="object-cover"
+                sizes="40vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

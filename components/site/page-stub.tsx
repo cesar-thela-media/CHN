@@ -22,7 +22,7 @@ export function PageStub({
  This page is a wired route stub. Full Shadcnspace sections land in the next build waves.
  </p>
  <div className="mt-10 flex flex-wrap gap-4">
- <ArrowButton href="/contact">Begin your journey</ArrowButton>
+ <ArrowButton href="/contact">Begin Your Journey</ArrowButton>
  <Link
  href="/"
  className="inline-flex h-12 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"

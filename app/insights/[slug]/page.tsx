@@ -101,7 +101,7 @@ export default async function InsightArticlePage({ params }: Props) {
  Complimentary white-glove guidance, concept to keys.
  </p>
  <div className="mt-6">
- <ArrowButton href="/contact">Begin your journey</ArrowButton>
+ <ArrowButton href="/contact">Begin Your Journey</ArrowButton>
  </div>
  </aside>
 

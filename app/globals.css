@@ -60,7 +60,7 @@
  }
 
  html {
- scroll-behavior: smooth;
+ scroll-behavior: auto;
  -webkit-font-smoothing: antialiased;
  -moz-osx-font-smoothing: grayscale;
  }
@@ -191,4 +191,16 @@
  animation-iteration-count: 1 !important;
  transition-duration: 0.01ms !important;
  }
+}
+
+
+/* Premium motion helpers */
+@utility chn-crossfade {
+  transition-property: opacity, transform, color, background-color, border-color;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility chn-ease {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
