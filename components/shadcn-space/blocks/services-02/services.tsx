@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Services-02 adapted for CHN: scroll-pinned highlight (not hover).
- * Pin while scrolling through each discipline, then release to next section.
+ * Services-02 (CHN): GSAP ScrollTrigger pin + step through 6 disciplines.
+ * Scroll replaces hover as the primary interaction.
  */
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -41,67 +41,91 @@ function Services({
   ctaHref = "/services",
 }: ServicesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
+  const activeIndexRef = useRef(0);
+  const rootRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
-  const active = data[activeIndex] ?? data[0];
   const count = Math.max(data.length, 1);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !data.length) return;
+    if (!data.length || typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
+    const root = rootRef.current;
+    const pin = pinRef.current;
+    if (!root || !pin) return;
+
+    const setIndex = (idx: number) => {
+      const next = Math.max(0, Math.min(count - 1, idx));
+      if (activeIndexRef.current === next) return;
+      activeIndexRef.current = next;
+      setActiveIndex(next);
+    };
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const pinEl = pinRef.current;
-    const section = sectionRef.current;
-    if (!pinEl || !section) return;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-    // Mobile / reduced motion: still advance active via scroll without long pin
-    if (reduce || window.innerWidth < 768) {
-      const triggers: ScrollTrigger[] = data.map((_, i) =>
+    const ctx = gsap.context(() => {
+      if (reduce) {
         ScrollTrigger.create({
-          trigger: section,
-          start: () => `top+=${i * 80} center`,
-          end: () => `top+=${(i + 1) * 80} center`,
-          onEnter: () => setActiveIndex(i),
-          onEnterBack: () => setActiveIndex(i),
-        }),
-      );
-      return () => triggers.forEach((t) => t.kill());
-    }
+          trigger: root,
+          start: "top 70%",
+          end: "bottom 30%",
+          onUpdate: (self) => {
+            setIndex(Math.min(count - 1, Math.floor(self.progress * count)));
+          },
+        });
+        return;
+      }
 
-    // Desktop: pin and scrub through all 6, then release
-    const scrollPer = Math.round(window.innerHeight * 0.72);
-    const totalScroll = scrollPer * count;
+      const scrollPer = Math.round(window.innerHeight * (isMobile ? 0.45 : 0.9));
+      const totalScroll =
+        scrollPer * count + Math.round(window.innerHeight * 0.12);
 
-    const st = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: () => `+=${totalScroll}`,
-      pin: pinEl,
-      pinSpacing: true,
-      scrub: 0.45,
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        const raw = self.progress * count;
-        const idx = Math.min(count - 1, Math.floor(raw + 0.001));
-        setActiveIndex((prev) => (prev === idx ? prev : idx));
-      },
-    });
+      ScrollTrigger.create({
+        id: "chn-services-pin",
+        trigger: root,
+        start: "top top",
+        end: `+=${totalScroll}`,
+        pin: pin,
+        pinSpacing: true,
+        scrub: isMobile ? 0.2 : 0.35,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const t = Math.min(0.999, Math.max(0, self.progress));
+          setIndex(Math.min(count - 1, Math.floor(t * count)));
+        },
+      });
+    }, root);
+
+    const refresh = () => ScrollTrigger.refresh();
+    const t1 = window.setTimeout(refresh, 100);
+    const t2 = window.setTimeout(refresh, 500);
+    window.addEventListener("load", refresh);
+    window.addEventListener("resize", refresh);
 
     return () => {
-      st.kill();
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("load", refresh);
+      window.removeEventListener("resize", refresh);
+      ctx.revert();
     };
-  }, [count, data.length]);
+  }, [count, data]);
 
   return (
     <section
-      ref={sectionRef}
+      ref={rootRef}
       data-shadcn-space="services-02"
       id="services"
-      className="bg-background"
+      className="relative bg-background"
     >
-      <div ref={pinRef} className="min-h-[100svh] bg-background">
-        <div className="container-site flex min-h-[100svh] flex-col justify-center py-14 sm:py-16 lg:py-20">
+      <div
+        ref={pinRef}
+        className="flex min-h-[100svh] flex-col justify-center bg-background will-change-transform"
+        data-services-pin
+      >
+        <div className="container-site py-16 sm:py-18 lg:py-20">
           <div className="flex flex-col gap-10 sm:gap-12">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="flex max-w-2xl flex-col gap-3">
@@ -115,7 +139,10 @@ function Services({
                   {title}
                 </h2>
                 <p className="text-base text-muted-foreground sm:text-lg">{description}</p>
-                <p className="text-[11px] uppercase tracking-[0.22em] text-stone">
+                <p
+                  className="text-[11px] uppercase tracking-[0.22em] text-stone"
+                  data-services-step
+                >
                   Scroll to explore · {String(activeIndex + 1).padStart(2, "0")} /{" "}
                   {String(count).padStart(2, "0")}
                 </p>
@@ -140,37 +167,48 @@ function Services({
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
               <div className="img-frame relative aspect-[4/3] w-full overflow-hidden bg-elevated lg:col-span-5 lg:aspect-auto lg:min-h-[26rem]">
-                {active?.image && (
-                  <Image
-                    key={active.image + activeIndex}
-                    src={active.image}
-                    alt={active.heading}
-                    fill
-                    className="object-cover transition-opacity duration-500"
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    priority={activeIndex === 0}
-                  />
-                )}
+                {data.map((item, index) => (
+                  <div
+                    key={item.image + item.heading}
+                    className={cn(
+                      "absolute inset-0 transition-opacity duration-500 ease-out",
+                      activeIndex === index ? "opacity-100" : "opacity-0",
+                    )}
+                    aria-hidden={activeIndex !== index}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.heading}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 42vw"
+                      priority={index === 0}
+                    />
+                  </div>
+                ))}
               </div>
 
-              <div className="flex w-full flex-col lg:col-span-7">
+              <div className="flex w-full flex-col lg:col-span-7" data-services-list>
                 {data.map((value, index) => {
                   const href = value.href || ctaHref;
+                  const isActive = activeIndex === index;
                   return (
                     <Link
                       key={value.heading}
                       href={href}
+                      data-service-index={index}
+                      data-active={isActive ? "true" : "false"}
                       className={cn(
-                        "group relative flex flex-col items-start justify-between gap-2 border-t border-border py-5 transition-colors xl:flex-row xl:items-center xl:gap-8 xl:py-6 last:border-b",
-                        activeIndex === index
-                          ? "border-cream/30 bg-elevated/40"
-                          : "opacity-55 hover:opacity-90",
+                        "relative flex flex-col items-start justify-between gap-2 border-t border-border py-5 transition-all duration-300 xl:flex-row xl:items-center xl:gap-8 xl:py-6 last:border-b",
+                        isActive
+                          ? "border-cream/40 bg-elevated/50"
+                          : "opacity-45",
                       )}
                     >
                       <h3
                         className={cn(
-                          "max-w-sm py-1 font-display text-xl font-normal tracking-tight transition-colors md:text-2xl",
-                          activeIndex === index ? "text-cream" : "text-foreground",
+                          "max-w-sm py-1 font-display text-xl font-normal tracking-tight transition-colors duration-300 md:text-2xl",
+                          isActive ? "text-cream" : "text-foreground",
                         )}
                       >
                         <span className="mr-3 font-sans text-xs text-stone tabular-nums md:text-sm">
@@ -178,11 +216,14 @@ function Services({
                         </span>
                         {value.heading}
                       </h3>
-                      {activeIndex === index && (
-                        <p className="flex-1 text-sm leading-relaxed text-muted-foreground md:text-base">
-                          {value.descp}
-                        </p>
-                      )}
+                      <p
+                        className={cn(
+                          "flex-1 overflow-hidden text-sm leading-relaxed text-muted-foreground transition-all duration-300 md:text-base",
+                          isActive ? "max-h-48 opacity-100" : "max-h-0 opacity-0",
+                        )}
+                      >
+                        {value.descp}
+                      </p>
                     </Link>
                   );
                 })}
