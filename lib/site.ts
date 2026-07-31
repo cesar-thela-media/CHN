@@ -1,8 +1,6 @@
 /**
  * Brand facts for Custom Home Network.
- * Values mirror live customhomenetwork.com schema where published.
- * Phone / street / region remain unset until counsel provides them.
- * UI hides empty fields instead of showing placeholders.
+ * Copy and sitemap derived from customhomenetwork.com.
  */
 export const site = {
   name: "Custom Home Network",
@@ -11,11 +9,13 @@ export const site = {
   sloganAlt: "Experience the Pinnacle of Custom Home Building",
   ctaPrimary: "Begin Your Journey",
   ctaSecondary: "Get in Touch",
+  /** Short hero subhead (live-site tone, tightened for scan) */
+  heroSubhead:
+    "Complimentary white-glove service and a vetted network, seamless from concept to completion.",
   description:
     "Luxury custom home builder providing complimentary white-glove service from concept to completion: land, design, construction, finance, interiors, and project management at no cost to you.",
   url: "https://customhomenetwork.com",
   email: "info@customhomenetwork.com",
-  /** Empty until provided; do not invent */
   phone: "" as string,
   phoneDisplay: "" as string,
   hours: "Monday to Friday, 9:00 AM to 5:00 PM",
@@ -27,7 +27,6 @@ export const site = {
     postalCode: "" as string,
     country: "US",
   },
-  /** Audience, not a fixed metro until areaServed is set */
   serviceArea:
     "Serving local homeowners and families relocating from out of state",
   serviceAreaShort: "Local & relocating clients nationwide*",
@@ -43,7 +42,7 @@ export const site = {
   assets: {
     logoWhite: "/images/logo-white.png",
     heroImage: "/images/pinnaclebuilding.jpeg",
-    /** Sourced from live site: customhomenetwork.com/video/CHN.mp4 */
+    /** Live site: /video/CHN.mp4 (1280x720), cover-fills hero viewport */
     heroVideo: "/video/CHN.mp4",
     ogImage: "/images/pinnaclebuilding.jpeg",
   },
@@ -82,22 +81,22 @@ export type Service = {
   outcomes: string[];
 };
 
-/** Single source for homepage, /services, and /services/[slug]. */
+/** Unique image per service (no reuse across the six). */
 export const services: Service[] = [
   {
     slug: "land-acquisition",
     title: "Land Acquisition & Evaluation",
     shortTitle: "Land Acquisition",
     description:
-      "Expert land acquisition to find the right site for your custom home, with thorough evaluation and due diligence.",
+      "Discover the perfect location with land experts who understand prime real estate and buildability.",
     icon: "MapPin",
     image: "/images/land-hills.jpg",
     problem:
-      "The wrong lot is expensive forever: easements, utilities, views, and resale value hide in fine print that most buyers never fully translate.",
+      "The wrong lot is expensive forever: easements, utilities, views, and resale value hide in fine print.",
     whatWeDo:
-      "We connect you with land specialists who evaluate sites with a builder's and architect's eye: access, soils, setbacks, view corridors, and long-term livability, before you commit capital.",
+      "We connect you with land specialists who evaluate sites with a builder's and architect's eye before you commit capital.",
     whoInNetwork:
-      "Land brokers, local Realtors with custom-build experience, civil partners for early feasibility, and title resources for clean diligence.",
+      "Land brokers, local Realtors with custom-build experience, civil partners, and title resources.",
     outcomes: [
       "Clear go / no-go criteria before you fall in love with a parcel",
       "Diligence that includes buildability, not only comps",
@@ -109,15 +108,15 @@ export const services: Service[] = [
     title: "Architectural Design & Planning",
     shortTitle: "Architectural Design",
     description:
-      "Collaborative design with visionary architects: innovative, personal plans that respect how you live.",
+      "Collaborate with visionary architects to bring your dream home to life with personalized designs.",
     icon: "PenTool",
-    image: "/images/custombuilding.jpg",
+    image: "/images/svc-architecture.jpg",
     problem:
-      "Beautiful drawings that ignore how you live, or how a builder will price them, create friction later: change orders, value-engineering, and regret.",
+      "Beautiful drawings that ignore how you live create friction later: change orders and regret.",
     whatWeDo:
-      "We introduce architects who listen first, then design for light, privacy, circulation, and the quiet details that make a house feel inevitable. Plans stay coordinated with budget and constructability.",
+      "We introduce architects who listen first, then design for light, privacy, and circulation with constructability in mind.",
     whoInNetwork:
-      "Residential architects, planning consultants, and design partners experienced in custom and high-end residential work.",
+      "Residential architects, planning consultants, and design partners for high-end residential work.",
     outcomes: [
       "Design rooted in how you actually live",
       "Early dialogue between design and build",
@@ -129,13 +128,13 @@ export const services: Service[] = [
     title: "Custom Home Building",
     shortTitle: "Custom Building",
     description:
-      "Premium construction with vetted builders known for exceptional craftsmanship and attention to detail.",
+      "Entrust your project to vetted builders known for exceptional craftsmanship and attention to detail.",
     icon: "Home",
-    image: "/images/custombuilding.jpg",
+    image: "/images/svc-framing.jpg",
     problem:
-      "Not every custom builder is set up for true custom: communication, schedule honesty, and craftsmanship standards vary wildly.",
+      "Not every custom builder is set up for true custom: communication and craftsmanship standards vary wildly.",
     whatWeDo:
-      "We introduce builders vetted for process discipline and finish quality. You stay in control of selection; we keep context and expectations aligned so the build feels calm, not combative.",
+      "We introduce builders vetted for process discipline and finish quality, with context kept aligned.",
     whoInNetwork:
       "Custom residential builders, superintendents, and specialty trade partners known for craft over volume.",
     outcomes: [
@@ -149,13 +148,13 @@ export const services: Service[] = [
     title: "Finance & Title Services",
     shortTitle: "Finance & Title",
     description:
-      "Specialized finance and title partners to navigate the complexities of custom home funding and closing.",
+      "Navigate financial complexities with specialized finance and title partners.",
     icon: "Landmark",
-    image: "/images/unlockvalue.jpg",
+    image: "/images/svc-finance.jpg",
     problem:
-      "Construction loans, draws, title exceptions, and timing can derail even strong design if capital and closing paths stay opaque.",
+      "Construction loans, draws, and title exceptions can derail strong design if capital paths stay opaque.",
     whatWeDo:
-      "We bring finance and title partners who explain options plainly, align draws with the build plan, and protect clarity when timelines get tight.",
+      "We bring finance and title partners who explain options plainly and align draws with the build plan.",
     whoInNetwork:
       "Residential lenders familiar with custom construction, mortgage advisors, and title professionals.",
     outcomes: [
@@ -169,15 +168,15 @@ export const services: Service[] = [
     title: "Interior Design & Finishing Touches",
     shortTitle: "Interior Design",
     description:
-      "Bespoke interiors that epitomize luxury and comfort: premium finishing touches for a home you actually live in.",
+      "Enhance your home with bespoke interiors that epitomize luxury and comfort.",
     icon: "Sofa",
-    image: "/images/luxurypool.jpg",
+    image: "/images/svc-interiors.jpg",
     problem:
-      "Interiors bolted on late become catalogs of compromises, or budgets that explode because finishes never met architecture halfway.",
+      "Interiors bolted on late become catalogs of compromises or budgets that explode.",
     whatWeDo:
-      "We introduce interior designers who work with the architectural language early: materials, millwork, lighting, and the tactile details that make rooms feel personal and durable.",
+      "We introduce interior designers who work with the architectural language early: materials, millwork, and lighting.",
     whoInNetwork:
-      "Interior designers, finish specialists, and lighting / millwork collaborators aligned to custom residential standards.",
+      "Interior designers, finish specialists, and lighting or millwork collaborators.",
     outcomes: [
       "Interiors integrated with architecture",
       "Finish decisions sequenced with construction",
@@ -189,15 +188,15 @@ export const services: Service[] = [
     title: "Personalized Project Management",
     shortTitle: "Project Management",
     description:
-      "Dedicated oversight from concept to completion, so you are never left managing six firms alone.",
+      "Dedicated oversight through completion so you are never managing six firms alone.",
     icon: "ClipboardCheck",
-    image: "/images/unlockvalue.jpg",
+    image: "/images/svc-project.jpg",
     problem:
-      "When no one owns the whole story, owners become project managers, chasing answers across firms that don't share context.",
+      "When no one owns the whole story, owners become project managers chasing answers across firms.",
     whatWeDo:
-      "Our complimentary white-glove service coordinates introductions and sequencing across your journey: a single through-line of context from concept to completion.",
+      "Our complimentary white-glove service coordinates introductions and sequencing across your full journey.",
     whoInNetwork:
-      "Our network leads plus every specialist on your path, kept aligned through shared context and clear next steps.",
+      "Our network leads plus every specialist on your path, kept aligned through shared context.",
     outcomes: [
       "One coherent journey instead of six parallel ones",
       "Proactive communication, not reactive fire drills",

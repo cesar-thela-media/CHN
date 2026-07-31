@@ -2,7 +2,7 @@
 
 /**
  * Adapted from Shadcnspace hero-02.
- * Video-forward hero: seamless soft vignette under type (no hard cutoffs).
+ * Full-bleed video at natural hero size (object-cover on viewport), short CHN copy.
  */
 import Link from "next/link";
 import { Gift, Network, Percent, Sparkles } from "lucide-react";
@@ -26,15 +26,16 @@ export function HomeHeroBlock() {
   return (
     <section
       data-shadcn-space="hero-02"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden md:min-h-[min(100svh,900px)]"
+      className="relative flex h-[100svh] min-h-[640px] max-h-[1100px] flex-col overflow-hidden"
     >
+      {/* Media fills exact hero box (video intrinsic 1280x720, cover = natural fill) */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1814]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={site.assets.heroImage}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover object-[center_28%]"
+          className="absolute inset-0 h-full w-full object-cover"
           fetchPriority="high"
         />
         {videoSrc ? (
@@ -46,21 +47,19 @@ export function HomeHeroBlock() {
             playsInline
             preload="auto"
             poster={site.assets.heroImage}
+            width={1280}
+            height={720}
             aria-label="Custom Home Network showcase"
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
         ) : null}
-        {/* Full-bleed soft washes — no rectangular panel */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background: [
-              /* left/copy zone: gradual horizontal fade into clear video */
               "linear-gradient(90deg, rgba(8,8,7,0.58) 0%, rgba(8,8,7,0.38) 28%, rgba(8,8,7,0.14) 52%, transparent 72%)",
-              /* bottom for trust strip transition */
               "linear-gradient(to top, rgba(8,8,7,0.55) 0%, transparent 36%)",
-              /* light top for nav */
               "linear-gradient(to bottom, rgba(8,8,7,0.28) 0%, transparent 22%)",
             ].join(", "),
           }}
@@ -75,10 +74,8 @@ export function HomeHeroBlock() {
           <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
             {site.tagline}
           </h1>
-          <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)] sm:text-base md:text-lg">
-            Our complimentary white-glove service unlocks additional value at no cost to
-            you, vetted partners coordinated from concept to completion. Clients also receive an
-            exclusive {site.builderBonus} builder bonus pre-negotiated for our network.
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)] sm:text-base md:text-lg">
+            {site.heroSubhead}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
             <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>

@@ -73,8 +73,8 @@ export function AboutStoryBlock() {
             transition={{ duration: 0.7 }}
           >
             <Image
-              src="/images/custombuilding.jpg"
-              alt="Custom home craftsmanship"
+              src="/images/story-living.jpg"
+              alt="Custom home living spaces"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 90vw, 45vw"
@@ -92,22 +92,22 @@ export function AboutStoryBlock() {
               variants={fadeUp}
               className="text-xs font-medium uppercase tracking-[0.28em] text-stone"
             >
-              The network
+              Who we are
             </motion.p>
             <motion.h2
               variants={fadeUp}
               className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl"
             >
-              Built for people who refuse a generic home, and a generic process.
+              An inspiring journey, not a source of stress.
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="max-w-md text-base leading-relaxed text-muted-foreground"
             >
-              Custom Home Network is a curated circle of Realtors, architects, builders, finance,
-              and interiors specialists. We coordinate the path so you never assemble a team alone.
-              Partner-funded white-glove service, no invoice from us, plus a pre-negotiated 0.5%
-              builder bonus exclusively for our clients.
+              Custom Home Network was founded so building your dream home feels smooth and
+              rewarding. We transform vision into reality with access to top-tier Realtors,
+              architects, builders, and financial experts, plus partner-funded white-glove
+              service and a pre-negotiated 0.5% builder bonus for our clients.
             </motion.p>
           </motion.div>
         </div>

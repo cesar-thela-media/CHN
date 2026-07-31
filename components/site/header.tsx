@@ -87,30 +87,32 @@ export function Header() {
       <div className="container-site">
         <nav
           className={cn(
-            "flex h-[4.25rem] items-center justify-between gap-4 transition-all duration-500 md:h-[4.5rem]",
-            scrolled && "md:h-16",
+            "flex h-[5.25rem] items-center justify-between gap-4 transition-all duration-500 md:h-[5.75rem]",
+            scrolled && "h-[4.75rem] md:h-[5rem]",
           )}
           aria-label="Primary"
         >
-          <div className="flex min-w-0 items-center gap-6 lg:gap-8">
+          <div className="flex min-w-0 items-center gap-5 lg:gap-8">
             <Link
               href="/"
-              className="relative z-10 shrink-0"
+              className="relative z-10 flex shrink-0 items-center py-1"
               aria-label={`${site.name} home`}
             >
+              {/* Official logo asset is wide (1386x787). Height drives readable wordmark. */}
               <Image
                 src={site.assets.logoWhite}
                 alt={site.name}
-                width={148}
-                height={42}
-                className="h-8 w-auto object-contain md:h-9"
+                width={320}
+                height={182}
+                sizes="(max-width: 768px) 160px, 240px"
+                className="h-[3.25rem] w-auto object-contain object-left sm:h-14 md:h-[3.75rem] lg:h-16"
                 priority
               />
             </Link>
 
             <Separator
               orientation="vertical"
-              className="hidden h-5 data-[orientation=vertical]:h-5 lg:block"
+              className="hidden h-7 data-[orientation=vertical]:h-7 lg:block"
             />
 
             <ul className="hidden items-center gap-0.5 lg:flex">
@@ -132,7 +134,7 @@ export function Header() {
                           window.setTimeout(() => setServicesOpen(false), 150);
                         }}
                       >
-                        Services
+                        {item.label}
                         <ChevronDown
                           className={cn(
                             "h-3.5 w-3.5 transition-transform",
@@ -141,18 +143,21 @@ export function Header() {
                         />
                       </button>
                       {servicesOpen && (
-                        <div className="absolute left-0 top-full z-50 mt-1 min-w-[14rem] border border-border bg-card p-2 shadow-soft">
+                        <div className="absolute left-0 top-full z-50 mt-1 w-72 border border-border bg-card/98 p-2 shadow-soft backdrop-blur-xl">
                           <Link
                             href="/services"
-                            className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-secondary"
+                            className="block rounded-sm px-3 py-2 text-sm text-foreground hover:bg-elevated"
+                            onClick={() => setServicesOpen(false)}
                           >
                             All services
                           </Link>
+                          <Separator className="my-1" />
                           {servicesNav.map((s) => (
                             <Link
                               key={s.href}
                               href={s.href}
-                              className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                              className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-elevated hover:text-foreground"
+                              onClick={() => setServicesOpen(false)}
                             >
                               {s.label}
                             </Link>
@@ -181,52 +186,74 @@ export function Header() {
             </ul>
           </div>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <ArrowButton
-              href="/contact"
-              className="h-10 ps-5 pe-12 text-xs hover:ps-12 hover:pe-5"
-            >
-              {site.ctaPrimary}
-            </ArrowButton>
-          </div>
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:block">
+              <ArrowButton href="/contact" className="h-10 px-4 text-sm">
+                {site.ctaPrimary}
+              </ArrowButton>
+            </div>
 
-          <div className="lg:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button
-                  type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="icon"
-                  className="h-11 w-11 rounded-sm border-border"
+                  className="lg:hidden"
                   aria-label="Open menu"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-background p-0">
-                <SheetHeader className="border-b border-border">
-                  <SheetTitle>Menu</SheetTitle>
+              <SheetContent
+                side="right"
+                className="w-[min(100vw,22rem)] border-border bg-background"
+              >
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <div className="flex justify-start">
+                    <Image
+                      src={site.assets.logoWhite}
+                      alt={site.name}
+                      width={280}
+                      height={160}
+                      className="h-12 w-auto object-contain object-left"
+                    />
+                  </div>
                 </SheetHeader>
-                <div className="flex flex-1 flex-col gap-1 px-4 py-4">
+                <div className="mt-8 flex flex-col gap-1">
                   {primaryNav.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "border-b border-border/60 py-3.5 text-base transition-colors",
+                        "rounded-sm px-3 py-3 text-base",
                         isActive(item.href)
-                          ? "text-foreground"
+                          ? "bg-elevated text-foreground"
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {item.label}
                     </Link>
                   ))}
-                  <div className="mt-6">
+                  <Separator className="my-3" />
+                  <p className="px-3 text-[11px] uppercase tracking-[0.2em] text-stone">
+                    Services
+                  </p>
+                  {servicesNav.map((s) => (
+                    <Link
+                      key={s.href}
+                      href={s.href}
+                      onClick={() => setOpen(false)}
+                      className="rounded-sm px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                  <div className="mt-6 px-3">
                     <ArrowButton
                       href="/contact"
-                      className="w-full justify-start"
+                      className="w-full justify-center"
                       onClick={() => setOpen(false)}
                     >
                       {site.ctaPrimary}
