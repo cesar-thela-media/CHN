@@ -45,9 +45,11 @@ export function HomeHeroBlock() {
 
       <div className="container-site relative z-10 flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 sm:pt-40 md:pb-16">
         <div className="relative max-w-xl lg:max-w-2xl">
-          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)]">
-            {site.sloganAlt}
-          </p>
+          {chnCopy.hero.eyebrow && (
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-cream drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)]">
+              {chnCopy.hero.eyebrow}
+            </p>
+          )}
           <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
             {chnCopy.hero.title}
           </h1>

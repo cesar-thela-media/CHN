@@ -51,12 +51,14 @@ const AboutUs = ({
             variants={STAGGER}
             className="flex flex-col gap-3"
           >
-            <motion.div variants={FADE_UP} className="flex items-center gap-1.5">
-              <div className="m-1.5 h-1.5 w-1.5 rounded-full bg-stone" />
-              <span className="text-xs font-medium uppercase tracking-[0.28em] text-stone">
-                {eyebrow}
-              </span>
-            </motion.div>
+            {eyebrow && (
+              <motion.div variants={FADE_UP} className="flex items-center gap-1.5">
+                <div className="m-1.5 h-1.5 w-1.5 rounded-full bg-stone" />
+                <span className="text-xs font-medium uppercase tracking-[0.28em] text-stone">
+                  {eyebrow}
+                </span>
+              </motion.div>
+            )}
             <motion.h2
               variants={FADE_UP}
               className="font-display text-4xl font-normal tracking-tight text-foreground sm:text-5xl md:text-6xl"

@@ -28,7 +28,7 @@ export default function InsightsIndexPage() {
             <div>
               <p className="eyebrow">{"Explore Our Insights"}</p>
               <h1 className="mt-3 max-w-xl font-display text-4xl tracking-tight text-foreground md:text-6xl">
-                Discover how to infuse your personality into every room.
+                Explore Our Insights
               </h1>
             </div>
             <p className="max-w-xs text-sm text-muted-foreground md:text-right">

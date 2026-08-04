@@ -42,7 +42,7 @@ export function InsightsBlock() {
  <div className="container-site flex flex-col gap-8">
  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
  <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
- {chnCopy.insights.title}
+ {chnCopy.insights.cta}
  </h2>
  <Link
  href="/insights"
