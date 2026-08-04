@@ -1,10 +1,3 @@
-// Sentry client — ready for credentials; no-ops without DSN
-import * as Sentry from "@sentry/nextjs";
-
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || undefined,
-  enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
-  tracesSampleRate: 0.1,
-  replaysSessionSampleRate: 0,
-  replaysOnErrorSampleRate: 0,
-});
+// Client initialization lives in instrumentation-client.ts for Next.js 15.
+// This legacy entry point is intentionally side-effect free to avoid duplicate Sentry.init() calls.
+export {};
