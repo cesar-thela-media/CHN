@@ -81,6 +81,7 @@ function Services({
       descs.forEach((d, i) => {
         gsap.set(d, {
           opacity: i === 0 ? 1 : 0,
+          y: i === 0 ? 0 : 10,
           height: i === 0 ? "auto" : 0,
           overflow: "hidden",
         });
@@ -156,28 +157,34 @@ function Services({
         descs.forEach((d, i) => {
           const active = i === idx;
           if (reduce) {
-            gsap.set(d, { opacity: active ? 1 : 0, height: active ? "auto" : 0 });
+            gsap.set(d, {
+              opacity: active ? 1 : 0,
+              y: active ? 0 : 10,
+              height: active ? "auto" : 0,
+            });
             return;
           }
           if (active) {
-            gsap.set(d, { height: "auto", opacity: 0 });
+            gsap.set(d, { height: "auto", opacity: 0, y: 10 });
             const h = d.scrollHeight;
             gsap.fromTo(
               d,
-              { height: 0, opacity: 0 },
+              { height: 0, opacity: 0, y: 10 },
               {
                 height: h,
                 opacity: 1,
+                y: 0,
                 duration: 0.55,
                 ease: "power2.out",
                 overwrite: "auto",
-                onComplete: () => gsap.set(d, { height: "auto" }),
+                onComplete: () => gsap.set(d, { height: "auto", y: 0 }),
               },
             );
           } else {
             gsap.to(d, {
               height: 0,
               opacity: 0,
+              y: 10,
               duration: 0.4,
               ease: "power2.inOut",
               overwrite: "auto",

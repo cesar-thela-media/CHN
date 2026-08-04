@@ -8,7 +8,6 @@ import AboutUs from "@/components/shadcn-space/blocks/about-us-03/about-us";
 import Services from "@/components/shadcn-space/blocks/services-02/services";
 import { HomeHeroBlock } from "@/components/site/home/hero-block";
 import { AboutStoryBlock } from "@/components/site/home/about-story-block";
-import { InsightsBlock } from "@/components/site/home/insights-block";
 import { CtaBlock } from "@/components/site/home/cta-block";
 import { FadeIn } from "@/components/site/fade-in";
 import { services, site } from "@/lib/site";
@@ -70,7 +69,19 @@ export function HomePage() {
       />
 
       <AboutStoryBlock />
-      <InsightsBlock />
+      <section id="insights" className="border-t border-border bg-elevated/15 py-16 lg:py-24">
+        <div className="container-site flex flex-col gap-5">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
+            {chnCopy.insights.title}
+          </h2>
+          <a
+            href="/insights"
+            className="inline-flex w-fit items-center gap-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {chnCopy.insights.cta}
+          </a>
+        </div>
+      </section>
       <CtaBlock />
     </>
   );

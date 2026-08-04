@@ -19,7 +19,7 @@ export function Footer() {
  <div className="flex flex-col gap-14 md:gap-16">
  <div className="grid gap-8 md:grid-cols-12 md:items-center">
  <div className="md:col-span-4">
- <p className="eyebrow">{chnCopy.newsletter.cta}</p>
+ <p className="eyebrow">{chnCopy.newsletter.title}</p>
  <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
  {chnCopy.newsletter.body}
  </p>

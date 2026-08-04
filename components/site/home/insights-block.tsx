@@ -18,7 +18,7 @@ export function InsightsBlock() {
   return (
    <section id="insights" className="border-t border-border bg-elevated/15 py-16 lg:py-24">
     <div className="container-site flex flex-col gap-5">
-     <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
+      <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
       {chnCopy.insights.title}
      </h2>
      <Link
