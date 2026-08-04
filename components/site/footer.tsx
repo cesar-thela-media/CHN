@@ -7,6 +7,7 @@ import { ArrowButton } from "@/components/site/arrow-button";
 import { Separator } from "@/components/ui/separator";
 import { footerNav } from "@/lib/navigation";
 import { site } from "@/lib/site";
+import { chnCopy } from "@/lib/chn-copy";
 
 export function Footer() {
  return (
@@ -18,13 +19,13 @@ export function Footer() {
  <div className="flex flex-col gap-14 md:gap-16">
  <div className="grid gap-8 md:grid-cols-12 md:items-center">
  <div className="md:col-span-4">
- <p className="eyebrow">Stay close</p>
+ <p className="eyebrow">{chnCopy.newsletter.title}</p>
  <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
- Occasional notes on land, design, and building well, no noise.
+ {chnCopy.newsletter.body}
  </p>
  </div>
  <div className="md:col-span-8">
- <NewsletterForm />
+ <NewsletterForm submitLabel={chnCopy.newsletter.cta} />
  <p className="mt-3 text-xs text-stone">
  By subscribing you agree to receive updates from {site.name}. Unsubscribe anytime.
  </p>

@@ -10,15 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { partnerSchema } from "@/lib/form-schemas";
 
-const schema = z.object({
- name: z.string().min(2, "Please enter your name"),
- company: z.string().min(2, "Company required"),
- role: z.string().min(2, "Role required"),
- email: z.string().email("Valid email required"),
- phone: z.string().min(7, "Phone required"),
- message: z.string().min(10, "Tell us about your practice"),
-});
+const schema = partnerSchema;
 
 type FormValues = z.infer<typeof schema>;
 

@@ -4,15 +4,17 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { newsletterSchema } from "@/lib/form-schemas";
 
-export function NewsletterForm() {
+export function NewsletterForm({ submitLabel = "Subscribe" }: { submitLabel?: string }) {
   const [email, setEmail] = useState("");
   const [pending, setPending] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.includes("@")) {
-      toast.error("Please enter a valid email");
+    const parsed = newsletterSchema.safeParse({ email });
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message || "Please enter a valid email");
       return;
     }
     setPending(true);
@@ -51,7 +53,7 @@ export function NewsletterForm() {
         autoComplete="email"
       />
       <Button type="submit" disabled={pending} className="h-12 shrink-0 rounded-sm px-6">
-        {pending ? "…" : "Subscribe"}
+        {pending ? "…" : submitLabel}
       </Button>
     </form>
   );

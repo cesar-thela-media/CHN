@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { getAllInsightSlugs } from "@/lib/insights";
 import { getAllServiceSlugs, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -9,19 +8,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/partners",
     "/services",
     ...getAllServiceSlugs().map((s) => `/services/${s}`),
-    "/insights",
-    ...getAllInsightSlugs().map((s) => `/insights/${s}`),
     "/contact",
-    "/privacy",
-    "/terms",
   ];
   return paths.map((path) => ({
     url: `${site.url}${path}`,
-    lastModified: new Date(),
-    changeFrequency:
-      path === "" || path === "/services" || path === "/insights"
-        ? "weekly"
-        : "monthly",
+    lastModified: "2026-08-03",
+    changeFrequency: path === "" || path === "/services" ? "weekly" : "monthly",
     priority:
       path === ""
         ? 1

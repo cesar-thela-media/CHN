@@ -5,13 +5,14 @@
  */
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { chnCopy } from "@/lib/chn-copy";
 import { ArrowButton } from "@/components/site/arrow-button";
 
 const trustStats = [
-  { value: "$0", label: "Cost to you" },
-  { value: site.builderBonus, label: "Builder bonus" },
-  { value: "6", label: "Disciplines" },
-  { value: "1", label: "Coordinated path" },
+  { value: "$0", label: "Financial commitment from you" },
+  { value: site.builderBonus, label: "Bonus incentive for clients" },
+  { value: "1", label: "Custom home journey" },
+  { value: "6", label: "Services" },
 ];
 
 export function HomeHeroBlock() {
@@ -48,13 +49,13 @@ export function HomeHeroBlock() {
             {site.sloganAlt}
           </p>
           <h1 className="display-xl mt-3 text-[2.35rem] leading-[1.02] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-[4.1rem]">
-            {site.tagline}
+            {chnCopy.hero.title}
           </h1>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-foreground/95 drop-shadow-[0_1px_12px_rgba(0,0,0,0.55)] sm:text-base md:text-lg">
-            {site.heroSubhead}
+            {chnCopy.hero.body}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-            <ArrowButton href="/contact">{site.ctaPrimary}</ArrowButton>
+            <ArrowButton href="/contact">{chnCopy.hero.primaryCta}</ArrowButton>
             <Link
               href="/services"
               prefetch

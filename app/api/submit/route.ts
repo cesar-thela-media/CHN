@@ -1,117 +1,96 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import {
+  newsletterSchema,
+  partnerSchema,
+  scheduleSchema,
+  submitBodySchema,
+} from "@/lib/form-schemas";
 
 export const dynamic = "force-dynamic";
 
-const scheduleSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(7),
-  message: z.string().min(10),
-  location: z.string().max(200).optional(),
-  timeline: z.string().max(200).optional(),
-});
+const MAX_BODY_BYTES = 32_000;
+const WEBHOOK_TIMEOUT_MS = 8_000;
 
-const newsletterSchema = z.object({
-  email: z.string().email(),
-});
+type SubmitType = "schedule" | "newsletter" | "partner";
 
-const partnerSchema = z.object({
-  name: z.string().min(2),
-  company: z.string().min(2),
-  role: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(7),
-  message: z.string().min(10),
-});
-
-const bodySchema = z.object({
-  type: z.enum(["schedule", "newsletter", "partner"]),
-  payload: z.record(z.unknown()),
-});
-
-function webhookFor(type: string): string | undefined {
-  const map: Record<string, string | undefined> = {
+function webhookFor(type: SubmitType): string | undefined {
+  const map: Record<SubmitType, string | undefined> = {
     schedule: process.env.WEBHOOK_URL_SCHEDULE,
     newsletter: process.env.WEBHOOK_URL_NEWSLETTER,
     partner: process.env.WEBHOOK_URL_PARTNER,
   };
-  const url = map[type];
-  return url && url.length > 0 ? url : undefined;
+  const url = map[type]?.trim();
+  return url ? url : undefined;
+}
+
+function safeErrorDetails(error: z.ZodError) {
+  return error.flatten().fieldErrors;
 }
 
 export async function POST(req: Request) {
   try {
+    const contentLength = Number(req.headers.get("content-length") || 0);
+    if (contentLength > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: "Request is too large" }, { status: 413 });
+    }
+
     const json = await req.json();
-    const parsed = bodySchema.safeParse(json);
+    const parsed = submitBodySchema.safeParse(json);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid request", details: parsed.error.flatten() },
+        { error: "Invalid request", details: safeErrorDetails(parsed.error) },
         { status: 400 },
       );
     }
 
     const { type, payload } = parsed.data;
-    let validated: unknown;
+    const schema =
+      type === "schedule"
+        ? scheduleSchema
+        : type === "newsletter"
+          ? newsletterSchema
+          : partnerSchema;
+    const validated = schema.safeParse(payload);
 
-    if (type === "schedule") {
-      const data = scheduleSchema.safeParse(payload);
-      if (!data.success) {
-        return NextResponse.json(
-          { error: "Invalid schedule form", details: data.error.flatten() },
-          { status: 400 },
-        );
-      }
-      validated = data.data;
-    } else if (type === "newsletter") {
-      const data = newsletterSchema.safeParse(payload);
-      if (!data.success) {
-        return NextResponse.json(
-          { error: "Invalid newsletter form", details: data.error.flatten() },
-          { status: 400 },
-        );
-      }
-      validated = data.data;
-    } else {
-      const data = partnerSchema.safeParse(payload);
-      if (!data.success) {
-        return NextResponse.json(
-          { error: "Invalid partner form", details: data.error.flatten() },
-          { status: 400 },
-        );
-      }
-      validated = data.data;
+    if (!validated.success) {
+      return NextResponse.json(
+        { error: `Invalid ${type} form`, details: safeErrorDetails(validated.error) },
+        { status: 400 },
+      );
     }
 
     const webhookUrl = webhookFor(type);
-
-    if (webhookUrl) {
-      const res = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type,
-          payload: validated,
-          receivedAt: new Date().toISOString(),
-          source: "customhomenetwork",
-        }),
-      });
-      if (!res.ok) {
-        console.error(`[submit] webhook ${type} failed`, res.status);
-        return NextResponse.json({ error: "Webhook delivery failed" }, { status: 502 });
+    if (!webhookUrl) {
+      if (process.env.NODE_ENV === "production") {
+        console.error(`[submit] ${type} webhook is not configured`);
+        return NextResponse.json({ error: "Submission is temporarily unavailable" }, { status: 503 });
       }
-    } else {
-      // Dev / missing webhook: accept and log so forms still succeed
-      console.info(`[submit] ${type} (no webhook)`, JSON.stringify(validated));
+
+      console.info(`[submit] ${type} accepted in development; webhook not configured`);
+      return NextResponse.json({ ok: true, type, delivered: false, development: true });
     }
 
-    return NextResponse.json({
-      ok: true,
-      type,
-      delivered: Boolean(webhookUrl),
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type,
+        payload: validated.data,
+        receivedAt: new Date().toISOString(),
+        source: "customhomenetwork",
+      }),
+      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
     });
+
+    if (!res.ok) {
+      console.error(`[submit] webhook ${type} failed`, res.status);
+      return NextResponse.json({ error: "Webhook delivery failed" }, { status: 502 });
+    }
+
+    return NextResponse.json({ ok: true, type, delivered: true });
   } catch (err) {
-    console.error("[submit]", err);
+    console.error("[submit] request failed", err instanceof Error ? err.message : "unknown error");
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

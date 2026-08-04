@@ -38,7 +38,7 @@ function Services({
   data = servicesData,
   eyebrow = "Services",
   title = "What we do",
-  description = "A seamless suite of disciplines.",
+  description = "A seamless suite of services.",
   ctaLabel = "View all services",
   ctaHref = "/services",
 }: ServicesProps) {

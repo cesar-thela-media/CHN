@@ -74,10 +74,11 @@ export type Service = {
   description: string;
   icon: string;
   image: string;
-  problem: string;
-  whatWeDo: string;
-  whoInNetwork: string;
-  outcomes: string[];
+  /** Legacy editorial fields retained only for data compatibility. */
+  problem?: string;
+  whatWeDo?: string;
+  whoInNetwork?: string;
+  outcomes?: string[];
 };
 
 /** Unique image per service (no reuse across the six). */
@@ -87,7 +88,7 @@ export const services: Service[] = [
     title: "Land Acquisition & Evaluation",
     shortTitle: "Land Acquisition",
     description:
-      "Discover the perfect location with land experts who understand prime real estate and buildability.",
+      "Discover the perfect location with our land experts who understand the nuances of prime real estate.",
     icon: "MapPin",
     image: "/images/land-hills.jpg",
     problem:
@@ -107,7 +108,7 @@ export const services: Service[] = [
     title: "Architectural Design & Planning",
     shortTitle: "Architectural Design",
     description:
-      "Collaborate with visionary architects to bring your dream home to life with personalized designs.",
+      "Collaborate with visionary architects and designers to bring your dream home to life with innovative and personalized designs.",
     icon: "PenTool",
     image: "/images/svc-architecture.jpg",
     problem:
@@ -127,7 +128,7 @@ export const services: Service[] = [
     title: "Custom Home Building",
     shortTitle: "Custom Building",
     description:
-      "Entrust your project to vetted builders known for exceptional craftsmanship and attention to detail.",
+      "Entrust your project to our vetted network of builders known for exceptional craftsmanship and attention to detail.",
     icon: "Home",
     image: "/images/svc-framing.jpg",
     problem:
@@ -147,7 +148,7 @@ export const services: Service[] = [
     title: "Finance & Title Services",
     shortTitle: "Finance & Title",
     description:
-      "Navigate financial complexities with specialized finance and title partners.",
+      "Navigate financial complexities effortlessly with our specialized finance and title partners.",
     icon: "Landmark",
     image: "/images/svc-finance.jpg",
     problem:
@@ -167,7 +168,7 @@ export const services: Service[] = [
     title: "Interior Design & Finishing Touches",
     shortTitle: "Interior Design",
     description:
-      "Enhance your home with bespoke interiors that epitomize luxury and comfort.",
+      "Enhance your home’s interior with bespoke design solutions that epitomize luxury and comfort.",
     icon: "Sofa",
     image: "/images/svc-interiors.jpg",
     problem:
@@ -187,7 +188,7 @@ export const services: Service[] = [
     title: "Personalized Project Management",
     shortTitle: "Project Management",
     description:
-      "Dedicated oversight through completion so you are never managing six firms alone.",
+      "Benefit from comprehensive project management expertise with dedicated oversight through completion.",
     icon: "ClipboardCheck",
     image: "/images/svc-project.jpg",
     problem:

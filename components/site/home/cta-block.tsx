@@ -8,6 +8,7 @@ import { motion } from "motion/react";
 import { Check } from "lucide-react";
 import { ArrowButton } from "@/components/site/arrow-button";
 import { site } from "@/lib/site";
+import { chnCopy } from "@/lib/chn-copy";
 
 const perks = [
   "Complimentary white-glove",
@@ -51,19 +52,19 @@ export function CtaBlock() {
                 variants={fadeUp}
                 className="text-xs font-medium uppercase tracking-[0.28em] text-cream/80"
               >
-                Ready?
+                Ready to Begin Your Journey?
               </motion.p>
               <motion.h2
                 variants={fadeUp}
                 className="font-display text-3xl font-normal tracking-tight text-white sm:text-5xl"
               >
-                Let's craft your home. Together.
+                {chnCopy.contact.title}
               </motion.h2>
               <motion.p
                 variants={fadeUp}
                 className="max-w-md text-sm leading-relaxed text-white/80 sm:text-base"
               >
-                One conversation. Continue on Contact.
+                {chnCopy.contact.body}
               </motion.p>
               <motion.ul
                 variants={fadeUp}

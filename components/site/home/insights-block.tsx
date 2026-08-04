@@ -8,10 +8,30 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { insights } from "@/lib/insights";
+import { chnCopy } from "@/lib/chn-copy";
 
 export function InsightsBlock() {
  const [hero, ...rest] = insights;
  const side = rest.slice(0, 2);
+
+ if (!hero) {
+  return (
+   <section id="insights" className="border-t border-border bg-elevated/15 py-16 lg:py-24">
+    <div className="container-site flex flex-col gap-5">
+     <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
+      {chnCopy.insights.title}
+     </h2>
+     <Link
+      href="/insights"
+      className="inline-flex w-fit items-center gap-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+     >
+      {chnCopy.insights.cta}
+      <ArrowRight className="h-4 w-4" />
+     </Link>
+    </div>
+   </section>
+  );
+ }
 
  return (
  <section
@@ -22,13 +42,13 @@ export function InsightsBlock() {
  <div className="container-site flex flex-col gap-8">
  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
  <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
- Insights
+ {chnCopy.insights.title}
  </h2>
  <Link
  href="/insights"
  className="inline-flex items-center gap-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
  >
- View all
+ {chnCopy.insights.cta}
  <ArrowRight className="h-4 w-4" />
  </Link>
  </div>

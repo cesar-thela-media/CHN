@@ -1,120 +1,87 @@
-# Custom Home Network - Baseline (P0 inventory)
+# Custom Home Network — Current Baseline
 
-**Date:** 2026-07-30 
-**Purpose:** Lock stack + visual direction before multi-page / Shadcnspace integration waves. 
-**Rule:** Preserve look; expand product and use Pro blocks next.
+**Updated:** 2026-08-03
+**Purpose:** Current implementation and visual/content QA baseline for the CHN redesign.
 
----
+## Product direction
 
-## P1 update (2026-07-30)
+The project is a better-version recreation of `https://customhomenetwork.com/`.
 
-- **19 Shadcnspace Pro blocks** installed under `components/shadcn-space/blocks/`
-- Catalog: [`docs/SHADCNSPACE_CATALOG.md`](docs/SHADCNSPACE_CATALOG.md)
-- CLI demo routes removed; homepage polish intact and loading
-- Blocks **not yet wired** into live UI (P2+)
+- Preserve approved CHN business meaning, services, offers, and claims.
+- Preserve the current premium editorial visual direction.
+- Improve hierarchy, responsive behavior, conversion flow, and content organization.
+- Do not introduce unsupported AI-generated claims.
+- Keep the six service records as a structural content model; avoid presenting “six disciplines” as a marketing claim unless explicitly approved.
 
----
-
-## Preview / runtime
-
-| Check | Status |
-|-------|--------|
-| Dev server `0.0.0.0:8080` | OK (listening, curl 200) |
-| `GET /api/health` | OK `{ status: "ok", service: "custom-home-network" }` |
-| Homepage `/` | OK 200, polished editorial UI |
-| `/privacy`, `/terms` | OK stub pages |
-| `/buyers`, `/partners`, `/services`, `/insights` | **Missing** (404) |
-| `startup.sh` | Present, idempotent health probe + `bun run dev` |
-| Screenshots | `screenshots/baseline-desktop.png`, `baseline-desktop-full.png`, `baseline-mobile.png` |
-
----
-
-## Stack status (boss requirements)
+## Current stack
 
 | Requirement | Status |
-|-------------|--------|
-| Next.js 15 App Router | Yes (`next@^15.3`) |
+|---|---|
+| Next.js 15 App Router | Yes |
 | React 19 | Yes |
 | TypeScript | Yes |
-| Tailwind CSS v4 | Yes (`@tailwindcss/postcss`) |
-| GSAP + `@gsap/react` | Yes (`lib/animations.ts`, FadeIn, Hero) |
-| `@sentry/nextjs` | Wired (instrumentation + configs); no DSN required locally |
-| Docker multi-stage Bun 1.3.4 → Node 20 | Yes (`Dockerfile`) |
-| `node server.js` production entry | Yes (`server.js`) |
-| Railway | `railway.toml` + healthcheck path `/api/health` |
-| `/api/health` | Yes |
-| `/api/submit` | Yes (`schedule` \| `newsletter` \| `partner` + webhook env) |
-| Shadcnspace registry in `components.json` | Yes (`@shadcn-space` + `${EMAIL}` / `${LICENSE_KEY}`) |
+| Tailwind CSS v4 | Yes |
+| GSAP + `@gsap/react` | Yes |
+| Sentry | Ready; client initialization is centralized in `instrumentation-client.ts` |
+| Vercel | Active deployment target |
+| Webhook forms | `/api/submit` with schedule/newsletter/partner types |
+| Docker/Railway reserve | `Dockerfile`, `server.js`, `railway.toml`, and `/api/health` present |
+| Database/authentication | Not part of current scope |
 
-### Env key names present
+## Routes
 
-**In `.env` (secrets):** `EMAIL`, `LICENSE_KEY`, `SHADCNSPACE_EMAIL`, `SHADCNSPACE_LICENSE_KEY`
+| Route | Purpose |
+|---|---|
+| `/` | Primary marketing homepage |
+| `/buyers` | Buyer journey and FAQ |
+| `/partners` | Partner network information and application |
+| `/services` | Services index |
+| `/services/[slug]` | Static service detail pages |
+| `/insights` | Editorial index and newsletter |
+| `/insights/[slug]` | Static editorial detail pages |
+| `/contact` | Primary consultation form |
+| `/privacy` | Legal placeholder pending approved copy |
+| `/terms` | Legal placeholder pending approved copy |
+| `/api/submit` | Webhook-ready form endpoint |
+| `/api/health` | Reserved runtime health endpoint |
+| `/robots.txt` | Generated robots metadata |
+| `/sitemap.xml` | Generated public route sitemap |
 
-**In `.env.example` (placeholders):** above + `WEBHOOK_URL_SCHEDULE`, `WEBHOOK_URL_NEWSLETTER`, `WEBHOOK_URL_PARTNER`, `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT`
+## Current visual system
 
----
+- Ink/dark background with cream foreground and stone metadata.
+- Cormorant Garamond display typography and Instrument Sans body typography.
+- Editorial asymmetric grids and restrained borders.
+- Full-bleed video hero with poster fallback.
+- GSAP/Motion fade and reveal effects with reduced-motion handling.
+- Sliding-arrow CTA buttons.
+- Responsive mobile menu and stacked mobile layouts.
 
-## Routes (current)
+## Content QA requirements
 
-| Route | File | Notes |
-|-------|------|--------|
-| `/` | `app/page.tsx` → `HomePage` | Full marketing homepage |
-| `/privacy` | `app/privacy/page.tsx` | Legal stub |
-| `/terms` | `app/terms/page.tsx` | Legal stub |
-| `/api/health` | `app/api/health/route.ts` | Healthcheck |
-| `/api/submit` | `app/api/submit/route.ts` | Form webhooks |
-| `/robots.txt` | `app/robots.ts` | Generated |
-| `/sitemap.xml` | `app/sitemap.ts` | Home + legal only |
-| `/buyers` etc. | - | **Not implemented** |
+Before production approval:
 
----
+1. Compare every public route and section against the approved CHN source content.
+2. Preserve the meaning of financial, service, geographic, and partner claims.
+3. Confirm exact wording for the no-cost service and 0.5% builder incentive.
+4. Confirm whether the six-service taxonomy should be described as “services” rather than “disciplines.”
+5. Approve or replace the editorial article content.
+6. Replace privacy and terms placeholders with counsel-approved copy.
+7. Confirm phone, address, hours, service area, social links, and asset rights.
+8. Keep internal implementation notes out of customer-facing copy.
 
-## Components
+## Verification baseline
 
-### Site (live UI - custom, polished)
+Run after dependency installation:
 
-- `components/site/header.tsx` - sticky nav, mobile menu, ArrowButton CTA 
-- `components/site/footer.tsx` - multi-column footer (anchor links, not multi-page) 
-- `components/site/hero.tsx` - full-bleed photo hero + stats rail + GSAP 
-- `components/site/home-page.tsx` - all homepage sections 
-- `components/site/arrow-button.tsx` - sliding-arrow CTA 
-- `components/site/fade-in.tsx` + `lib/animations.ts` - GSAP scroll fades 
-- `components/site/contact-form.tsx` / `newsletter-form.tsx` - RHF + zod → `/api/submit`
+```bash
+bun install
+bun run typecheck
+bun run build
+```
 
-### UI primitives (shadcn-style)
+Browser-check desktop and mobile for the homepage, navigation, service routes, insights, contact form, and all public routes. Confirm no console errors, duplicate Sentry initialization warning, broken assets, or mobile horizontal overflow.
 
-`button`, `input`, `textarea`, `label`, `card`, `separator`, `sheet`, `navigation-menu`, `avatar`, `badge`, plus CLI-added: accordion, select, checkbox, carousel, tabs, tooltip, collapsible, scroll-area
+## Deferred work
 
-### Shadcnspace Pro
-
-See **`docs/SHADCNSPACE_CATALOG.md`** - 19 blocks installed, mapped to future pages.
-
----
-
-## Visual direction to **PRESERVE**
-
-Do not flatten into generic SaaS / sky-amber Shadcnspace demos.
-
-- **Palette:** ink background (`#080807` range), cream primary text/CTAs, stone muted meta 
-- **Type:** display serif (Cormorant via next/font) + Instrument Sans body 
-- **Geometry:** refined/sharp radii, hairline borders, editorial asymmetry 
-- **Motion:** GSAP fade/stagger section enters; `prefers-reduced-motion` respected 
-- **CTAs:** sliding arrow pill (`ArrowButton`) 
-- **Patterns that work:** numbered service rows, stats rail on hero, full-bleed economics band, split contact panel, magazine-style insights grid 
-- **Anti-slop:** no emoji icons, no purple gradients, no equal bland card soup as the only layout
-
----
-
-## Known gaps (next waves)
-
-1. **Single-page product** - primary experience is `/` + anchors; Buyers / Partners / Services / Insights / Contact pages missing 
-2. **Shadcnspace not in live UI yet** - installed + cataloged; wire in P2+ 
-3. **Insights** are “coming soon” cards, not real posts 
-4. **Sitemap** does not list future marketing routes 
-5. **Brand placeholders** - phone/address TBD; webhooks empty until Railway env 
-
----
-
-## Recommended next prompt
-
-**Prompt 2 - Design system + global chrome from Shadcnspace:** adapt `navbar-08` + `footer-02` into layout with real multi-route links; restyle to brand tokens; keep homepage body intact.
+Database, authentication, CRM integration, advanced analytics, comprehensive anti-spam controls, and broader backend architecture are deferred until the visual/content direction is approved for production operations.

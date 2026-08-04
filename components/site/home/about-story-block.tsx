@@ -8,11 +8,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView } from "motion/react";
 import { cn } from "@/lib/utils";
+import { chnCopy } from "@/lib/chn-copy";
 
 const stats = [
-  { value: "0", label: "Cost to client for our service" },
-  { value: "05", label: "Builder bonus for network clients" },
-  { value: "06", label: "Disciplines in one network" },
+  { value: "0", label: "No financial commitment from you" },
+  { value: "05", label: "Bonus incentive for clients" },
+  { value: "01", label: "Custom home journey" },
 ];
 
 function CountUp({ value }: { value: string }) {
@@ -93,21 +94,23 @@ export function AboutStoryBlock() {
               variants={fadeUp}
               className="text-xs font-medium uppercase tracking-[0.28em] text-stone"
             >
-              Who we are
+              {chnCopy.whoWeAre.title}
             </motion.p>
             <motion.h2
               variants={fadeUp}
               className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl"
             >
-              An inspiring journey, not a source of stress.
+              Building your dream custom home should be an inspiring and joyful experience, not a source of stress.
             </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="max-w-md text-base leading-relaxed text-muted-foreground"
-            >
-              Access to top-tier Realtors, architects, builders, and finance partners.
-              Partner-funded white-glove, and a 0.5% builder bonus for our clients.
-            </motion.p>
+            {chnCopy.whoWeAre.paragraphs.map((paragraph) => (
+              <motion.p
+                key={paragraph}
+                variants={fadeUp}
+                className="max-w-md text-base leading-relaxed text-muted-foreground"
+              >
+                {paragraph}
+              </motion.p>
+            ))}
           </motion.div>
         </div>
 
@@ -134,6 +137,8 @@ export function AboutStoryBlock() {
                   "0.5%"
                 ) : value === "0" ? (
                   "$0"
+                ) : value === "01" ? (
+                  "1"
                 ) : (
                   <CountUp value={value} />
                 )}

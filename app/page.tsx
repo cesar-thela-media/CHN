@@ -9,10 +9,8 @@ export default function Page() {
     description: site.description,
     url: site.url,
     email: site.email,
-    telephone: site.phone,
     slogan: site.tagline,
     image: `${site.url}/images/pinnaclebuilding.jpeg`,
-    priceRange: "$$$",
   };
 
   return (

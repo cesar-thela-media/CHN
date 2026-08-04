@@ -1,27 +1,22 @@
-# Deploy, Custom Home Network
+# Deploy — Custom Home Network
 
-Supports **Vercel** (recommended for Next.js) and **Railway Docker** (boss stack).
+## Active path: Vercel
 
----
+Vercel is the current deployment target for the CHN visual/content review.
 
-## Vercel (primary web deploy)
+1. Import the repository into Vercel.
+2. Use the Next.js framework preset.
+3. Use Node 20 or newer.
+4. Use the default install and build behavior, or run `next build` explicitly.
+5. Do not configure a custom server for Vercel.
+6. Set webhook and Sentry values only when the corresponding integration is ready.
 
-1. Import the Git repo in [Vercel](https://vercel.com).
-2. Framework preset: **Next.js** (see `vercel.json`).
-3. Node **20+** (`package.json` engines).
-4. Build command: `next build` (default).
-5. Install: `npm install` (or leave default).
-6. Output: Next default (standalone is **off** on Vercel via `VERCEL=1` in `next.config.ts`).
-
-### Environment variables (Vercel project settings)
+### Vercel environment variables
 
 ```bash
-# Forms (optional; empty = accept + server log)
 WEBHOOK_URL_SCHEDULE=
 WEBHOOK_URL_NEWSLETTER=
 WEBHOOK_URL_PARTNER=
-
-# Sentry (optional; empty = SDK disabled)
 SENTRY_DSN=
 NEXT_PUBLIC_SENTRY_DSN=
 SENTRY_AUTH_TOKEN=
@@ -29,56 +24,69 @@ SENTRY_ORG=
 SENTRY_PROJECT=
 ```
 
-No custom server required. Vercel runs the Next.js serverless/Node runtime.  
-Health: `GET /api/health` on your deployment URL.
+When a webhook is missing, local development returns an explicit development-only response. Production submissions without a configured webhook are rejected rather than reported as delivered.
 
-### Verify locally as Vercel would
+## Reserved path: Railway + Docker
 
-```bash
-npm install
-npm run build
-# Vercel sets VERCEL=1; optional local check:
-VERCEL=1 npm run build
-npx next start -p 3000
-```
-
----
-
-## Railway + Docker (boss stack)
+The repository retains a dormant Railway/Docker path so it can be activated later without rebuilding the runtime foundation.
 
 | Item | Value |
-|------|--------|
-| Build | **Bun 1.3.4** (`oven/bun:1.3.4`) |
-| Run | **Node 20** · `node server.js` |
-| Port | **8080** |
-| Health | **`GET /api/health`** |
+|---|---|
+| Build | Bun 1.3.4 (`oven/bun:1.3.4`) |
+| Runtime | Node 20 Alpine |
+| Entry | `node server.js` |
+| Host | `0.0.0.0` |
+| Port | `8080` |
+| Health | `GET /api/health` |
 
-See `Dockerfile` and `railway.toml`. When `VERCEL` is unset, `output: "standalone"` is enabled for Docker.
+Relevant files:
 
-### Railway env
+- `Dockerfile`
+- `server.js`
+- `railway.toml`
+- `startup.sh` (development/sandbox helper)
+
+This path is not required for the current Vercel deployment and does not include a database, authentication system, or migration workflow.
+
+## Local verification
 
 ```bash
-PORT=8080
-HOSTNAME=0.0.0.0
-NODE_ENV=production
-WEBHOOK_URL_SCHEDULE=
-WEBHOOK_URL_NEWSLETTER=
-WEBHOOK_URL_PARTNER=
-SENTRY_DSN=
-NEXT_PUBLIC_SENTRY_DSN=
-SENTRY_AUTH_TOKEN=
-SENTRY_ORG=
-SENTRY_PROJECT=
+bun install
+bun run typecheck
+bun run build
 ```
 
----
+For the active Vercel-compatible production check:
+
+```bash
+VERCEL=1 bun run build
+bunx next start -H 0.0.0.0 -p 3000
+```
+
+For the reserved runtime path, use the Dockerfile and verify `/api/health` after the image starts.
 
 ## Forms
 
-`POST /api/submit` with `{ "type": "schedule" | "newsletter" | "partner", "payload": { ... } }`.
+The webhook-ready endpoint accepts:
 
-## Notes
+```text
+POST /api/submit
+```
 
-- Sentry: `enabled` only when a DSN is set.
-- `server.js` is for Docker/Railway only; Vercel ignores it.
-- Shadcnspace `EMAIL` / `LICENSE_KEY` are CLI-only (install blocks), not required at runtime.
+with one of these types:
+
+```text
+schedule
+newsletter
+partner
+```
+
+The payload is validated server-side, normalized, bounded, and forwarded to the matching webhook. Outbound delivery uses a timeout. No database or CRM is used in the current scope.
+
+## Sentry
+
+Sentry is ready but disabled unless `SENTRY_DSN` or `NEXT_PUBLIC_SENTRY_DSN` is provided. Client initialization is centralized in `instrumentation-client.ts`; the legacy `sentry.client.config.ts` is intentionally side-effect free.
+
+## Shadcn Space credentials
+
+`EMAIL` and `LICENSE_KEY` are install-time CLI credentials only. They are not runtime variables and must never be exposed through `NEXT_PUBLIC_*`, committed files, Docker images, or client code.

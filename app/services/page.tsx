@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ArrowButton } from "@/components/site/arrow-button";
 import { services } from "@/lib/site";
+import { chnCopy, sourceServices } from "@/lib/chn-copy";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -21,10 +22,10 @@ export default function ServicesPage() {
             <div className="max-w-xl">
               <p className="eyebrow">Services</p>
               <h1 className="mt-3 font-display text-4xl tracking-tight text-foreground md:text-6xl">
-                Six disciplines. One path.
+                {chnCopy.services.title}
               </h1>
               <p className="mt-4 text-base text-muted-foreground">
-                Land to finish. Coordinated. Complimentary to you.
+                {chnCopy.services.subtitle}
               </p>
             </div>
             <ArrowButton href="/contact" size="sm">
@@ -59,7 +60,7 @@ export default function ServicesPage() {
       <section data-shadcn-space="feature-01" className="border-b border-border py-6 md:py-10">
         <div className="container-site">
           <p className="mb-6 text-[11px] uppercase tracking-[0.22em] text-stone">
-            Explore each discipline
+            Explore each service
           </p>
           <div className="border-t border-border">
             {services.map((s, i) => (
@@ -85,7 +86,7 @@ export default function ServicesPage() {
                   {s.shortTitle}
                 </h2>
                 <p className="text-sm text-muted-foreground md:col-span-3">
-                  {s.description.split(".")[0]}.
+                  {sourceServices.find((source) => source.slug === s.slug)?.description ?? s.description}
                 </p>
                 <span className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.18em] text-stone group-hover:text-foreground md:col-span-1 md:justify-end">
                   <ArrowUpRight className="h-4 w-4" />

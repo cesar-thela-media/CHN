@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: service.title,
     description: service.description,
+    alternates: { canonical: `${site.url}/services/${service.slug}` },
     openGraph: {
       title: `${service.title} | ${site.name}`,
       description: service.description,
@@ -86,62 +87,28 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="border-b border-border py-16 md:py-24">
-        <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-5">
-            <p className="eyebrow">The challenge</p>
-            <h2 className="mt-4 font-display text-3xl tracking-tight text-foreground md:text-4xl">
-              {service.problem}
+      <section className="border-b border-border bg-elevated/20 py-16 md:py-24">
+        <div className="container-site grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="eyebrow">{service.title}</p>
+            <h2 className="mt-4 max-w-3xl font-display text-3xl tracking-tight text-foreground md:text-5xl">
+              {service.description}
             </h2>
           </div>
-          <div className="space-y-10 lg:col-span-6 lg:col-start-7">
-            <div>
-              <p className="eyebrow">What Custom Home Network does</p>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                {service.whatWeDo}
-              </p>
-            </div>
-            <div>
-              <p className="eyebrow">Who in the network</p>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                {service.whoInNetwork}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        data-shadcn-space="feature-01"
-        className="border-b border-border bg-elevated/20 py-16 md:py-20"
-      >
-        <div className="container-site">
-          <p className="eyebrow">Outcomes</p>
-          <h2 className="mt-4 max-w-xl font-display text-3xl tracking-tight md:text-4xl">
-            What careful coordination unlocks
-          </h2>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-3">
-            {service.outcomes.map((item, i) => (
-              <li
-                key={item}
-                className="border border-border bg-card p-6"
+          <div className="lg:col-span-4 lg:col-start-9">
+            <p className="text-base leading-relaxed text-muted-foreground">
+              Discover how Custom Home Network can support your custom home journey.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <ArrowButton href="/contact">Begin Your Journey</ArrowButton>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
               >
-                <span className="font-display text-2xl text-cream">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{item}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <ArrowButton href="/contact">Begin Your Journey</ArrowButton>
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-            >
-              Back to all services
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
+                Back to all services
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

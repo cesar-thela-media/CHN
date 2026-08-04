@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mail, MapPin, Clock, Phone } from "lucide-react";
 import { ContactForm } from "@/components/site/contact-form";
 import { hasAddress, hasPhone, site } from "@/lib/site";
+import { chnCopy } from "@/lib/chn-copy";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -33,19 +34,14 @@ export default function ContactPage() {
           <div className="relative flex h-full flex-col justify-between p-8 md:p-10 lg:min-h-[640px]">
             <div>
               <p className="text-[11px] uppercase tracking-[0.28em] text-cream/80">
-                Contact · Primary next step
+                {chnCopy.contact.eyebrow}
               </p>
               <h1 className="mt-4 font-display text-4xl tracking-tight text-foreground md:text-5xl">
-                Let's begin.
+                {chnCopy.contact.title}
               </h1>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-foreground/80">
-                Complimentary consultation. Partner-funded white-glove from first conversation.
+                {chnCopy.contact.body}
               </p>
-              <ul className="mt-8 space-y-2 text-sm text-foreground/75">
-                <li>$0 for our white-glove guidance</li>
-                <li>{site.builderBonus} builder bonus for clients</li>
-                <li>Six disciplines, one path</li>
-              </ul>
             </div>
             <ul className="mt-12 space-y-4 text-sm text-foreground/85">
               <li className="flex gap-3">
@@ -93,10 +89,10 @@ export default function ContactPage() {
 
         <div className="border border-t-0 border-border bg-card p-8 sm:p-10 lg:col-span-7 lg:border-l-0 lg:border-t lg:p-12">
           <h2 className="font-display text-2xl tracking-tight text-foreground md:text-3xl">
-            Schedule a consultation
+            {chnCopy.contact.cta}
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            This is the main call to action for the site. Required fields marked *.
+            Required fields marked *.
           </p>
           <div className="mt-8">
             <ContactForm idPrefix="contact" />

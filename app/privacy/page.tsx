@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
+  robots: { index: false, follow: true },
 };
 
 export default function PrivacyPage() {

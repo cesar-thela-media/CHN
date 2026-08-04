@@ -1,34 +1,22 @@
 "use client";
 
 /**
- * Adapted from Shadcnspace timeline-01, process journey for CHN.
- * Minimal intro copy; unique image per chapter.
+ * Adapted from Shadcnspace timeline-01. The source site does not publish a
+ * separate process/timeline section, so this component is intentionally kept
+ * as a restrained visual bridge without introducing new customer promises.
  */
 import Timeline from "@/components/shadcn-space/blocks/timeline-01/timeline";
 import { Badge } from "@/components/ui/badge";
-import { processSteps } from "@/lib/site";
 
-const processImages = [
-  "/images/process-discovery.jpg",
-  "/images/process-build.jpg",
-  "/images/process-finish.jpg",
-  "/images/process-movein.jpg",
+const items = [
+  {
+    title: "Concept to completion",
+    description:
+      "Our complimentary white-glove service guides your custom home journey from concept to completion.",
+    date: "",
+    image: "/images/process-discovery.jpg",
+  },
 ];
-
-/** Short step lines for luxury scan (homepage only). */
-const shortSteps: Record<string, string> = {
-  Discovery: "Vision, lifestyle, and the right partners.",
-  "Land & Design": "The site and the plan, in lockstep.",
-  "Build & Finish": "Craft under coordinated oversight.",
-  "Move In": "Keys. Calm. Home.",
-};
-
-const items = processSteps.map((s, i) => ({
-  title: s.title,
-  description: shortSteps[s.title] ?? s.description,
-  date: s.step,
-  image: processImages[i] ?? processImages[0],
-}));
 
 export function ProcessBlock() {
   return (
@@ -44,14 +32,11 @@ export function ProcessBlock() {
               variant="outline"
               className="rounded-full px-3 py-1 text-xs font-normal uppercase tracking-[0.2em] text-stone"
             >
-              The journey
+              Your journey
             </Badge>
             <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-5xl">
-              Four chapters. First call to keys.
+              From concept to completion.
             </h2>
-            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-              Considered, not chaotic.
-            </p>
           </div>
         </div>
         <div className="border-r border-border md:border-x">

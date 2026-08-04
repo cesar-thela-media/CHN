@@ -7,8 +7,7 @@ import { insights } from "@/lib/insights";
 
 export const metadata: Metadata = {
   title: "Insights",
-  description:
-    "Notes on land, design, and building carefully from Custom Home Network.",
+  description: "Discover how to infuse your personality into every room.",
 };
 
 function formatDate(iso: string) {
@@ -27,13 +26,13 @@ export default function InsightsIndexPage() {
         <div className="container-site">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow">Insights</p>
+              <p className="eyebrow">{"Explore Our Insights"}</p>
               <h1 className="mt-3 max-w-xl font-display text-4xl tracking-tight text-foreground md:text-6xl">
-                Clarity in every decision.
+                Discover how to infuse your personality into every room.
               </h1>
             </div>
             <p className="max-w-xs text-sm text-muted-foreground md:text-right">
-              Land. Design. Process. Short reads for careful builders.
+              Stay updated with the latest news and insights from the custom home building industry.
             </p>
           </div>
         </div>
@@ -42,7 +41,8 @@ export default function InsightsIndexPage() {
       {/* Vertical editorial list (distinct from home blog-09 cards) */}
       <section data-shadcn-space="blog-09" className="py-12 md:py-16">
         <div className="container-site">
-          <ul className="divide-y divide-border border-y border-border">
+          {insights.length > 0 ? (
+            <ul className="divide-y divide-border border-y border-border">
             {insights.map((article, i) => (
               <li key={article.slug}>
                 <Link
@@ -77,7 +77,14 @@ export default function InsightsIndexPage() {
                 </Link>
               </li>
             ))}
-          </ul>
+            </ul>
+          ) : (
+            <div className="border-y border-border py-12">
+              <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
+                Discover how to infuse your personality into every room. Explore our insights from the custom home building industry.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -87,7 +94,7 @@ export default function InsightsIndexPage() {
           <div>
             <p className="eyebrow">Newsletter</p>
             <h2 className="mt-3 font-display text-2xl text-foreground md:text-3xl">
-              Occasional notes. No noise.
+              Stay updated with the latest news and insights from the custom home building industry.
             </h2>
           </div>
           <NewsletterForm />
