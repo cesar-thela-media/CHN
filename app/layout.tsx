@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Instrument_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
@@ -17,6 +18,22 @@ const display = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-display-loaded",
+  display: "swap",
+});
+
+/** Variant A homepage type: Fraunces (display) + Inter (body/labels), self-hosted. */
+const fraunces = localFont({
+  src: [
+    { path: "./fonts/fraunces-variable.woff2", weight: "100 900", style: "normal" },
+    { path: "./fonts/fraunces-variable-italic.woff2", weight: "100 900", style: "italic" },
+  ],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const inter = localFont({
+  src: [{ path: "./fonts/inter-variable.woff2", weight: "100 900", style: "normal" }],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -75,7 +92,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${display.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="min-h-dvh font-sans">
         <NavSpeed />
         <Header />
