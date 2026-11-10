@@ -128,13 +128,21 @@
 }
 .navLinks {
   display: flex;
+  align-items: center;
   gap: 40px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
+.navLinks li {
+  display: flex;
+  line-height: 1;
+}
 .navLinks a,
 .navCta {
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 1px solid transparent;
   font: 400 11px/1 var(--sans);
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -143,6 +151,7 @@
 }
 .navLogo {
   display: block;
+  margin: 0 auto;
   height: 84px;
   width: auto;
 }
@@ -153,8 +162,7 @@
   gap: 20px;
 }
 .navCta {
-  border-bottom: 1px solid var(--tp);
-  padding-bottom: 8px;
+  border-bottom-color: var(--tp);
 }
 .menuBtn {
   display: none;
