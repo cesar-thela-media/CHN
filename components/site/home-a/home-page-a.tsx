@@ -11,6 +11,7 @@ import Link from "next/link";
 import { chnCopy, sourceServices } from "@/lib/chn-copy";
 import { site } from "@/lib/site";
 import { HomeNav } from "./home-nav";
+import { HeroVideo } from "./hero-video";
 import { HomeContactForm, HomeNewsletterForm } from "./home-forms";
 import { rich } from "./rich";
 import s from "./home-a.module.css";
@@ -46,18 +47,7 @@ export function HomePageA() {
       <section className={`${s.hero} ${s.photoEm}`}>
         <HomeNav />
         {/* PENDING (Matt/Cesar): final hero footage; the live CHN.mp4 is used until then. */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={IMG.heroPoster}
-          aria-label="Custom home building showcase video"
-        >
-          <source src={site.assets.heroVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <HeroVideo src={site.assets.heroVideo} poster={IMG.heroPoster} />
         <div className={s.heroVeil} />
         <div className={s.heroCopy}>
           <h1>{rich(c.hero.title, ["Home", "Starts"], "Journey", s.line)}</h1>
