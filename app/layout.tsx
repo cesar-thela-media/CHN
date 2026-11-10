@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { NavSpeed } from "@/components/site/nav-speed";
+import { HideOnHome } from "@/components/site/hide-on-home";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -95,9 +96,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${sans.variable} ${display.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="min-h-dvh font-sans">
         <NavSpeed />
-        <Header />
+        <HideOnHome>
+          <Header />
+        </HideOnHome>
         <main className="min-h-[50vh]">{children}</main>
-        <Footer />
+        <HideOnHome>
+          <Footer />
+        </HideOnHome>
         <Toaster theme="dark" position="top-center" richColors closeButton />
       </body>
     </html>

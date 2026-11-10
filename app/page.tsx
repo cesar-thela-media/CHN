@@ -1,4 +1,4 @@
-import { HomePage } from "@/components/site/home-page";
+import { HomePageA } from "@/components/site/home-a/home-page-a";
 import { site } from "@/lib/site";
 
 export default function Page() {
@@ -19,7 +19,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomePage />
+      <HomePageA />
     </>
   );
 }
