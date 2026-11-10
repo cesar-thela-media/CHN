@@ -175,10 +175,14 @@
 
 /* hero */
 .hero {
+  --nav-h: 121px;
   position: relative;
-  height: 100svh;
-  min-height: 760px;
-  max-height: 1000px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* content stays clear of the nav at any viewport height; bottom gap = mock's 150px at 900 tall */
+  padding: calc(var(--nav-h) + clamp(32px, 6vh, 72px)) var(--pad-x) clamp(88px, 16.7vh, 150px);
   overflow: hidden;
   background: #000;
 }
@@ -199,13 +203,12 @@
     linear-gradient(180deg, rgba(14, 14, 13, 0.6) 0%, rgba(14, 14, 13, 0) 20%);
 }
 .heroCopy {
-  position: absolute;
-  left: var(--pad-x);
-  bottom: 150px;
+  position: relative;
   z-index: 2;
 }
 .hero h1 {
-  font-size: 112px;
+  /* 112px at 1440x900; shrinks with width and with height so short windows never collide */
+  font-size: clamp(44px, min(7.8vw, 12.4vh), 112px);
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
@@ -213,7 +216,7 @@
   display: block;
 }
 .heroBody {
-  margin: 40px 0 46px !important;
+  margin: clamp(20px, 4.4vh, 40px) 0 clamp(24px, 5.1vh, 46px) !important;
   font-size: 16px;
   line-height: 1.8;
   color: var(--mu);
@@ -679,9 +682,6 @@
   .con .txt {
     padding: 120px 72px;
   }
-  .hero h1 {
-    font-size: 96px;
-  }
   .list li {
     grid-template-columns: 40px 1fr;
     gap: 8px 20px;
@@ -716,9 +716,6 @@
   .svc .txt,
   .con .txt {
     padding: 96px 48px;
-  }
-  .hero h1 {
-    font-size: 84px;
   }
   .pin h2 {
     font-size: 48px;
@@ -810,18 +807,14 @@
     display: inline-flex;
   }
   .hero {
-    min-height: 680px;
+    --nav-h: 89px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, min(12vw, 8vh), 60px);
   }
   .heroVeil {
     background:
       linear-gradient(0deg, #0e0e0d 0%, rgba(14, 14, 13, 0.55) 45%, rgba(14, 14, 13, 0.25) 100%);
-  }
-  .heroCopy {
-    right: var(--pad-x);
-    bottom: 96px;
-  }
-  .hero h1 {
-    font-size: 60px;
   }
   .heroBody {
     margin: 26px 0 32px !important;
@@ -940,9 +933,6 @@
 }
 
 @media (max-width: 480px) {
-  .hero h1 {
-    font-size: 50px;
-  }
   .pin h2,
   .val h2,
   .svc h2 {
@@ -968,6 +958,34 @@
     text-wrap: balance;
     font-size: 44px;
     line-height: 1;
+  }
+}
+
+/* Short laptop windows (e.g. 1009x500): tighten the nav and hero so the
+   headline, body and button all fit above the fold (1280x720 too). */
+@media (max-height: 760px) and (min-width: 769px) {
+  .nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .navLogo {
+    height: 64px;
+  }
+  .hero {
+    --nav-h: 85px;
+    padding-top: calc(var(--nav-h) + 24px);
+    padding-bottom: 56px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, min(7.8vw, 11vh), 112px);
+  }
+  .heroBody {
+    margin: 16px 0 22px !important;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .scroll {
+    bottom: 32px;
   }
 }
 
