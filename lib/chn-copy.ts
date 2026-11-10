@@ -9,6 +9,7 @@ export const chnCopy = {
     body:
       "Our complimentary white-glove service and vetted network make your custom home journey seamless and extraordinary from concept to completion.",
     primaryCta: "Begin Your Journey",
+    scroll: "SCROLL",
   },
   experience: {
     title: "Experience the Pinnacle of Custom Home Building",
@@ -50,6 +51,26 @@ export const chnCopy = {
     title: "Our Newsletter",
     body: "Stay updated with the latest news and insights from the custom home building industry.",
     cta: "Subscribe",
+  },
+  /** Live header labels (customhomenetwork.com). */
+  nav: {
+    links: ["Home", "Services", "About"],
+    cta: "Contact Us",
+  },
+  /** Live footer copy, verbatim (including the © 2024 line and emoji icons). */
+  footer: {
+    wordmark: ["CUSTOM HOME", "NETWORK"],
+    tagline:
+      "Your trusted partner in creating exceptional custom homes that reflect your unique vision and lifestyle.",
+    quickLinksTitle: "Quick Links",
+    quickLinks: ["Home", "Buyers", "Partners", "Contact"],
+    connectTitle: "Connect",
+    connect: [
+      { label: "Facebook", icon: "📘" },
+      { label: "Instagram", icon: "📷" },
+      { label: "LinkedIn", icon: "💼" },
+    ],
+    copyright: "© 2024 Custom Home Network. All rights reserved.",
   },
 } as const;
 
