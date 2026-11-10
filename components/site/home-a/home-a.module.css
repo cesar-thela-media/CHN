@@ -682,13 +682,6 @@
   .con .txt {
     padding: 120px 72px;
   }
-  .list li {
-    grid-template-columns: 40px 1fr;
-    gap: 8px 20px;
-  }
-  .list li p {
-    grid-column: 2;
-  }
   .news {
     padding: 56px 72px;
     grid-template-columns: auto 1fr;
@@ -700,6 +693,18 @@
   .ft {
     --ft-pad: 72px;
     padding: 96px var(--ft-pad) 0;
+  }
+}
+
+/* The services list keeps the mock's three columns (number, name, blurb)
+   until the text column gets too narrow for them. */
+@media (max-width: 1100px) {
+  .list li {
+    grid-template-columns: 40px 1fr;
+    gap: 8px 20px;
+  }
+  .list li p {
+    grid-column: 2;
   }
 }
 
